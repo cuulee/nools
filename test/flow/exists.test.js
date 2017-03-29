@@ -1,290 +1,242 @@
-"use strict";
-var it = require("it"),
-    assert = require("assert"),
-    nools = require("../../");
+'use strict';
 
-it.describe("exists rule", function (it) {
+const assert = require('assert');
+const nools = require('../../');
 
-    var flow;
-
-    var Count = function () {
+class Count {
+    constructor() {
         this.called = 0;
-    }, called = new Count();
+    }
+}
 
-    it.describe("fact assertion", function (it) {
-        it.beforeAll(function () {
-            flow = nools.flow("exists flow", function () {
-                this.rule("exists 1", [
-                    ["exists", String, "s1"],
-                    [Count, "c"]
-                ], function (facts) {
-                    facts.c.called++;
-                });
+describe('exists rule', () => {
+    const called = new Count();
+
+    describe('fact assertion', () => {
+        const existsFlow = nools.flow('exists flow', (builder) => {
+            builder.rule('exists 1', [
+                ['exists', String, 's1'],
+                [Count, 'c'],
+            ], (facts) => {
+                facts.c.called += 1;
             });
         });
-
-        it.beforeEach(function () {
+        beforeEach(() => {
             called.called = 0;
-        })
+        });
 
-        it.should("only activate once", function () {
-            return flow.getSession(called, "hello", "world", "hello world").match(function () {
+        it('should only activate once', () => {
+            return existsFlow.getSession(called, 'hello', 'world', 'hello world').match(() => {
                 assert.equal(called.called, 1);
             });
         });
 
-        it.should("not activate once if the fact does not exists", function () {
-            return flow.getSession(called).match(function () {
+        it('should not activate once if the fact does not exists', () => {
+            return existsFlow.getSession(called).match(() => {
                 assert.equal(called.called, 0);
             });
         });
-
     });
 
-    it.describe("fact retraction", function (it) {
-
-        function Person(name) {
-            this.name = name
+    describe('fact retraction', () => {
+        class Person {
+            constructor(name) {
+                this.name = name;
+            }
         }
 
-        function Str(val) {
-            this.val = val;
+        class Str {
+            constructor(val) {
+                this.val = val;
+            }
         }
 
-        it.beforeAll(function () {
-            flow = nools.flow("exists retractions flow", function () {
-                this.rule("exists 1", [
-                    [Person, "p"],
-                    ["exists", Str, "s1", "s1.val == p.name"],
-                    [Count, "c"]
-                ], function (facts) {
-                        facts.c.called++;
-                    }
-
-                );
+        const existsRetractFlow = nools.flow('exists retractions flow', (builder) => {
+            builder.rule('exists 1', [
+                [Person, 'p'],
+                ['exists', Str, 's1', 's1.val == p.name'],
+                [Count, 'c'],
+            ], (facts) => {
+                facts.c.called += 1;
             });
         });
 
-        it.beforeEach(function () {
+        beforeEach(() => {
             called.called = 0;
-        })
+        });
 
-        it.should("should handle fact retractions properly", function () {
-            var session = flow.getSession(called);
-            var activationTree = session.agenda.rules["exists 1"].tree,
-                activations,
-                str1 = new Str("Bob Yuko"),
-                str2 = new Str("Bob Yukon"),
-                person = new Person("Bob Yukon");
+        it('should should handle fact retractions properly', () => {
+            const session = existsRetractFlow.getSession(called);
+            const activationTree = session.agenda.rules['exists 1'].tree;
+            const str1 = new Str('Bob Yuko');
+            const str2 = new Str('Bob Yukon');
+            const person = new Person('Bob Yukon');
             session.assert(person);
-            activations = activationTree.toArray();
-            assert.lengthOf(activations, 0);
+            assert(activationTree.toArray().length === 0);
             session.assert(str1);
-            activations = activationTree.toArray();
-            assert.lengthOf(activations, 0);
+            assert(activationTree.toArray().length === 0);
             session.retract(str1);
-            activations = activationTree.toArray();
-            assert.lengthOf(activations, 0);
+            assert(activationTree.toArray().length === 0);
             session.assert(str2);
-            activations = activationTree.toArray();
-            assert.lengthOf(activations, 1);
+            assert(activationTree.toArray().length === 1);
             session.retract(str2);
-            activations = activationTree.toArray();
-            assert.lengthOf(activations, 0);
+            assert(activationTree.toArray().length === 0);
             session.assert(str2);
-            activations = activationTree.toArray();
-            assert.lengthOf(activations, 1);
+            assert(activationTree.toArray().length === 1);
             session.assert(str1);
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 1);
+            assert(activationTree.toArray().length === 1);
             session.retract(str1);
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 1);
+            assert(activationTree.toArray().length === 1);
             session.retract(str2);
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 0);
+            assert(activationTree.toArray().length === 0);
             session.assert(str2);
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 1);
+            assert(activationTree.toArray().length === 1);
             session.retract(person);
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 0);
+            assert(activationTree.toArray().length === 0);
         });
     });
 
-    it.describe("fact modification", function (it) {
-        function Person(name) {
-            this.name = name
+    describe('fact modification', () => {
+        class Person {
+            constructor(name) {
+                this.name = name;
+            }
         }
 
-        function Str(val) {
-            this.val = val;
+        class Str {
+            constructor(val) {
+                this.val = val;
+            }
         }
 
-        it.beforeAll(function () {
-            flow = nools.flow("exists modification flow", function () {
-                this.rule("exists 1", [
-                    [Person, "p"],
-                    ["exists", Str, "s1", "s1.val == p.name"],
-                    [Count, "c"]
-                ], function (facts) {
-                        facts.c.called++;
-                    }
-
-                );
+        const existsModifivationFlow = nools.flow('exists modification flow', (builder) => {
+            builder.rule('exists 1', [
+                [Person, 'p'],
+                ['exists', Str, 's1', 's1.val == p.name'],
+                [Count, 'c'],
+            ], (facts) => {
+                facts.c.called += 1;
             });
         });
 
-        it.beforeEach(function () {
+        beforeEach(() => {
             called.called = 0;
-        })
+        });
 
-        it.should("should handle fact modification properly", function () {
-            var session = flow.getSession(called);
-            var activationTree = session.agenda.rules["exists 1"].tree,
-                activations,
-                str1 = new Str("Bob Yuko"),
-                str2 = new Str("Bobby Yukon"),
-                person = new Person("Bob Yukon");
+        it('should should handle fact modification properly', () => {
+            const session = existsModifivationFlow.getSession(called);
+            const activationTree = session.agenda.rules['exists 1'].tree;
+            const str1 = new Str('Bob Yuko');
+            const str2 = new Str('Bobby Yukon');
+            const person = new Person('Bob Yukon');
             session.assert(person);
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 0);
+            assert(activationTree.toArray().length === 0);
             session.assert(str1);
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 0);
-            session.modify(str1, function () {
-                this.val = person.name;
+            assert(activationTree.toArray().length === 0);
+            session.modify(str1, (s) => {
+                s.val = person.name;
             });
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 1);
-            session.modify(person, function () {
-                this.name = "Bobby Yukon";
+            assert(activationTree.toArray().length === 1);
+            session.modify(person, (p) => {
+                p.name = 'Bobby Yukon';
             });
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 0);
+            assert(activationTree.toArray().length === 0);
             session.assert(str2);
-            activations = activationTree.toArray()
-            assert.lengthOf(activations, 1);
+            assert(activationTree.toArray().length === 1);
         });
     });
 
-    it.describe("with from modifier", function (it) {
-        function Person(zipcodes) {
-            this.zipcodes = zipcodes;
+    describe('with from modifier', () => {
+        class Person {
+            constructor(zipcodes) {
+                this.zipcodes = zipcodes;
+            }
         }
 
-        it.beforeAll(function () {
-            flow = nools.flow("exists from flow", function () {
-                this.rule("exists 1", [
-                    [Person, "p"],
-                    ["exists", Number, "zip", "zip == 11111", "from p.zipcodes"],
-                    [Count, "c"]
-                ], function (facts) {
-                        facts.c.called++;
-                    }
-
-                );
+        const existsFromFlow = nools.flow('exists from flow', (builder) => {
+            builder.rule('exists 1', [
+                [Person, 'p'],
+                ['exists', Number, 'zip', 'zip == 11111', 'from p.zipcodes'],
+                [Count, 'c'],
+            ], (facts) => {
+                facts.c.called += 1;
             });
         });
 
-        it.beforeEach(function () {
+        beforeEach(() => {
             called.called = 0;
         });
 
-        it.describe("assert", function (it) {
-
-            it.should("should handle fact assertion properly", function () {
-                var session = flow.getSession(called);
-                var activationTree = session.agenda.rules["exists 1"].tree,
-                    activations,
-                    person1 = new Person([88888, 99999, 77777]),
-                    person2 = new Person([66666, 55555, 44444]),
-                    person3 = new Person([33333, 22222, 11111]),
-                    person4 = new Person([11111, 11111, 11111]);
+        describe('assert', () => {
+            it('should should handle fact assertion properly', () => {
+                const session = existsFromFlow.getSession(called);
+                const activationTree = session.agenda.rules['exists 1'].tree;
+                const person1 = new Person([88888, 99999, 77777]);
+                const person2 = new Person([66666, 55555, 44444]);
+                const person3 = new Person([33333, 22222, 11111]);
+                const person4 = new Person([11111, 11111, 11111]);
                 session.assert(person1);
-                activations = activationTree.toArray()
-                assert.lengthOf(activations, 0);
+                assert(activationTree.toArray().length === 0);
                 session.assert(person2);
-                activations = activationTree.toArray()
-                assert.lengthOf(activations, 0);
+                assert(activationTree.toArray().length === 0);
                 session.assert(person3);
-                activations = activationTree.toArray()
-                assert.lengthOf(activations, 1);
+                assert(activationTree.toArray().length === 1);
                 session.assert(person4);
-                activations = activationTree.toArray()
-                assert.lengthOf(activations, 2);
+                assert(activationTree.toArray().length === 2);
             });
         });
 
-        it.describe("retract", function (it) {
-
-            it.should("should handle fact retraction properly", function () {
-                var session = flow.getSession(called);
-                var activationTree = session.agenda.rules["exists 1"].tree,
-                    activations,
-                    person1 = new Person([88888, 99999, 77777]),
-                    person2 = new Person([66666, 55555, 44444]),
-                    person3 = new Person([33333, 22222, 11111]),
-                    person4 = new Person([11111, 11111, 11111]);
+        describe('retract', () => {
+            it('should should handle fact retraction properly', () => {
+                const session = existsFromFlow.getSession(called);
+                const activationTree = session.agenda.rules['exists 1'].tree;
+                const person1 = new Person([88888, 99999, 77777]);
+                const person2 = new Person([66666, 55555, 44444]);
+                const person3 = new Person([33333, 22222, 11111]);
+                const person4 = new Person([11111, 11111, 11111]);
                 session.assert(person1);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 0);
+                assert(activationTree.toArray().length === 0);
                 session.assert(person2);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 0);
+                assert(activationTree.toArray().length === 0);
                 session.assert(person3);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 1);
+                assert(activationTree.toArray().length === 1);
                 session.assert(person4);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 2);
+                assert(activationTree.toArray().length === 2);
                 session.retract(person3);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 1);
+                assert(activationTree.toArray().length === 1);
                 session.retract(person4);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 0);
+                assert(activationTree.toArray().length === 0);
             });
         });
 
-        it.describe("modify", function (it) {
-
-            it.should("should handle fact modification properly", function () {
-                var session = flow.getSession(called);
-                var activationTree = session.agenda.rules["exists 1"].tree,
-                    activations,
-                    person1 = new Person([88888, 99999, 77777]),
-                    person2 = new Person([66666, 55555, 44444]),
-                    person3 = new Person([33333, 22222, 11111]),
-                    person4 = new Person([11111, 11111, 11111]);
+        describe('modify', () => {
+            it('should should handle fact modification properly', () => {
+                const session = existsFromFlow.getSession(called);
+                let activationTree = session.agenda.rules['exists 1'].tree;
+                const person1 = new Person([88888, 99999, 77777]);
+                const person2 = new Person([66666, 55555, 44444]);
+                const person3 = new Person([33333, 22222, 11111]);
+                const person4 = new Person([11111, 11111, 11111]);
                 session.assert(person1);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 0);
+                assert(activationTree.toArray().length === 0);
                 session.assert(person2);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 0);
+                assert(activationTree.toArray().length === 0);
                 session.assert(person3);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 1);
+                assert(activationTree.toArray().length === 1);
                 session.assert(person4);
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 2);
-                session.modify(person3, function () {
-                    this.zipcodes = [11111, 11111];
+                assert(activationTree.toArray().length === 2);
+                session.modify(person3, (p) => {
+                    p.zipcodes = [11111, 11111];
                 });
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 2);
-                session.modify(person3, function () {
-                    this.zipcodes = [88888];
+                assert(activationTree.toArray().length === 2);
+                session.modify(person3, (p) => {
+                    p.zipcodes = [88888];
                 });
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 1);
-                session.modify(person4, function () {
-                    this.zipcodes = [88888];
+                assert(activationTree.toArray().length === 1);
+                session.modify(person4, (p) => {
+                    p.zipcodes = [88888];
                 });
-                activations = activationTree.toArray();
-                assert.lengthOf(activations, 0);
-
+                assert(activationTree.toArray().length === 0);
             });
         });
     });

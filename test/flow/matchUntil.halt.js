@@ -1,65 +1,65 @@
-"use strict";
-var it = require("it"),
-    nools = require("../../"),
-    assert = require("assert");
+'use strict';
 
-it.describe("#matchUntilHalt", function (it) {
-    function Message(m) {
-        this.message = m;
+const nools = require('../../');
+const assert = require('assert');
+
+describe('#matchUntilHalt', () => {
+    class Message {
+        constructor(message) {
+            this.message = message;
+        }
     }
 
-    function Count(c) {
-        this.count = c;
+    class Count {
+        constructor(count) {
+            this.count = count;
+        }
     }
 
-    var session, flow = nools.flow("Halt Flow", function (flow) {
-
-        flow.rule("Stop", [Count, "c", "c.count == 6"], function () {
-            this.halt();
+    const flow = nools.flow('Match Until Halt Flow', (builder) => {
+        builder.rule('Stop', [Count, 'c', 'c.count == 6'], (facts, engine) => {
+            engine.halt();
         });
 
-        flow.rule("Hello", [
-            [Count, "c"],
-            [Message, "m", "m.message =~ /^hello(\\s*world)?$/"]
-        ], function (facts) {
-            this.modify(facts.m, function () {
-                this.message += " goodbye";
+        builder.rule('Hello', [
+            [Count, 'c'],
+            [Message, 'm', 'm.message =~ /^hello(\\s*world)?$/'],
+        ], (facts, engine) => {
+            engine.modify(facts.m, (m) => {
+                m.message += ' goodbye';
             });
-            this.modify(facts.c, function () {
-                this.count++;
-            });
-        });
-
-        flow.rule("Goodbye", [
-            [Count, "c"],
-            [Message, "m", "m.message =~ /.*goodbye$/"]
-        ], function (facts) {
-            this.retract(facts.m);
-            this.modify(facts.c, function () {
-                this.count++;
+            engine.modify(facts.c, (c) => {
+                c.count += 1;
             });
         });
 
+        builder.rule('Goodbye', [
+            [Count, 'c'],
+            [Message, 'm', 'm.message =~ /.*goodbye$/'],
+        ], (facts, engine) => {
+            engine.retract(facts.m);
+            engine.modify(facts.c, (c) => {
+                c.count += 1;
+            });
+        });
     });
 
-    it.beforeEach(function () {
-        session = flow.getSession();
-    });
-
-    it.should("match until halt is called", function () {
-        var count = 0, called = new Count(0);
-        var interval = setInterval(function () {
-            if (count++ >= 3) {
+    it('should match until halt is called', () => {
+        const session = flow.getSession();
+        let count = 0;
+        const called = new Count(0);
+        const interval = setInterval(() => {
+            if (count >= 3) {
                 clearInterval(interval);
             } else {
-                session.assert(new Message("hello"));
+                session.assert(new Message('hello'));
             }
+            count += 1;
         }, 50);
         session.assert(called);
-        return session.matchUntilHalt().then(function (err) {
-            assert.isUndefinedOrNull(err);
+        return session.matchUntilHalt().then((err) => {
+            assert(!err);
             assert.equal(called.count, 6);
         });
-
     });
 });

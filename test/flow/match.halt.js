@@ -1,36 +1,31 @@
-"use strict";
-var it = require("it"),
-    nools = require("../../"),
-    assert = require("assert");
+'use strict';
 
-it.describe("#matchHalt", function (it) {
+const nools = require('../../');
+const assert = require('assert');
 
-    function Count(c) {
-        this.count = c;
+describe('#matchHalt', () => {
+    class Count {
+        constructor(count) {
+            this.count = count;
+        }
     }
 
-    var session, flow = nools.flow("Match with halt Flow", function (flow) {
-
-        flow.rule("Stop", [Count, "c", "c.count == 6"], function () {
-            this.halt();
+    const haltFlow = nools.flow('Match with halt Flow', (builder) => {
+        builder.rule('Stop', [Count, 'c', 'c.count == 6'], (facts, engine) => {
+            engine.halt();
         });
 
-        flow.rule("Inc", [Count, "c"], function (facts) {
-            facts.c.count++;
-            this.modify(facts.c);
+        builder.rule('Inc', [Count, 'c'], (facts, engine) => {
+            facts.c.count += 1;
+            engine.modify(facts.c);
         });
-
     });
 
-    it.beforeEach(function () {
-        session = flow.getSession(new Count(0));
-    });
-
-    it.should("stop match with halt", function () {
-        return session.match().then(function (err) {
-            assert.isUndefinedOrNull(err);
+    it('should stop match with halt', () => {
+        const session = haltFlow.getSession(new Count(0));
+        return session.match().then((err) => {
+            assert(!err);
             assert.equal(session.getFacts(Count)[0].count, 6);
         });
-
     });
 });

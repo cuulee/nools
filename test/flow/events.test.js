@@ -1,77 +1,77 @@
-"use strict";
-var it = require("it"),
-    assert = require("assert"),
-    nools = require("../../");
+'use strict';
 
-it.describe("events", function (it) {
+const assert = require('assert');
+const nools = require('../../');
 
-    it.timeout(1000);
-
-    function Message(m) {
-        this.message = m;
+describe('events', () => {
+    class Message {
+        constructor(m) {
+            this.message = m;
+        }
     }
 
-    var session, flow = nools.flow("Simple", function (flow) {
-        flow.rule("Hello", [Message, "m", "m.message =~ /^hello(\\s*world)?$/"], function (facts) {
-            this.modify(facts.m, function () {
-                this.message += " goodbye";
+    const eventsFlow = nools.flow('Events Flow', (flow) => {
+        flow.rule('Hello', [Message, 'm', 'm.message =~ /^hello(\\s*world)?$/'], (facts, engine) => {
+            engine.modify(facts.m, (m) => {
+                m.message += ' goodbye';
             });
         });
 
-        flow.rule("Goodbye", [Message, "m", "m.message =~ /.*goodbye$/"], function () {
+        flow.rule('Goodbye', [Message, 'm', 'm.message =~ /.*goodbye$/'], () => {
         });
-
     });
 
-    it.beforeEach(function () {
-        session = flow.getSession();
+    let session = null;
+
+    beforeEach(() => {
+        session = eventsFlow.getSession();
     });
 
-    it.should("emit when facts are asserted", function (next) {
-        var m = new Message("hello");
-        session.once("assert", function (fact) {
+    it('should emit when facts are asserted', (next) => {
+        const m = new Message('hello');
+        session.once('assert', (fact) => {
             assert.deepEqual(fact, m);
             next();
         });
         session.assert(m);
-    });
+    }).timeout(1000);
 
-    it.should("emit when facts are retracted", function (next) {
-        var m = new Message("hello");
-        session.once("retract", function (fact) {
+    it('should emit when facts are retracted', (next) => {
+        const m = new Message('hello');
+        session.once('retract', (fact) => {
             assert.deepEqual(fact, m);
             next();
         });
         session.assert(m);
         session.retract(m);
-    });
+    }).timeout(1000);
 
-    it.should("emit when facts are modified", function (next) {
-        var m = new Message("hello");
-        session.once("modify", function (fact) {
+    it('should emit when facts are modified', (next) => {
+        const m = new Message('hello');
+        session.once('modify', (fact) => {
             assert.deepEqual(fact, m);
             next();
         });
         session.assert(m);
         session.modify(m);
-    });
+    }).timeout(1000);
 
-    it.should("emit when rules are fired", function (next) {
-        var m = new Message("hello");
-        var fire = [
-            ["Hello", "hello"],
-            ["Goodbye", "hello goodbye"]
-        ], i = 0;
-        session.on("fire", function (name, facts) {
+    it('should emit when rules are fired', (next) => {
+        const m = new Message('hello');
+        const fire = [
+            ['Hello', 'hello'],
+            ['Goodbye', 'hello goodbye'],
+        ];
+        let i = 0;
+        session.on('fire', (name, facts) => {
             assert.equal(name, fire[i][0]);
-            assert.equal(facts.m.message, fire[i++][1]);
+            assert.equal(facts.m.message, fire[i][1]);
+            i += 1;
         });
         session.assert(m);
-        session.match(function () {
+        session.match(() => {
             assert.equal(i, fire.length);
             next();
         });
-
-    });
-
+    }).timeout(1000);
 });

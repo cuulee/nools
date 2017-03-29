@@ -1,45 +1,37 @@
-"use strict";
-var it = require("it"),
-    nools = require("../../"),
-    assert = require("assert");
+'use strict';
 
-it.describe("async actions", function (it) {
+const nools = require('../../');
+const assert = require('assert');
 
-    var flow;
-
-    it.timeout(2000);
-
-    function Message(m) {
-        this.message = m;
+describe('async actions', () => {
+    class Message {
+        constructor(message) {
+            this.message = message;
+        }
     }
 
+    const flow = nools.flow('async flow', (builder) => {
+        builder.rule('Hello', [Message, 'm', "m.message == 'hello'"], (facts, engine, next) => {
+            setTimeout(() => {
+                next();
+            }, 500);
+        });
 
-    it.beforeAll(function () {
-        flow = nools.flow("async flow", function () {
-            this.rule("Hello", [Message, "m", "m.message == 'hello'"], function (facts, engine, next) {
-                setTimeout(function () {
-                    next();
-                }, 500);
-            });
-
-            this.rule("Goodbye", [Message, "m", "m.message == 'hello goodbye'"], function (facts, engine, next) {
-                setTimeout(function () {
-                    next();
-                }, 500);
-            });
-
+        builder.rule('Goodbye', [Message, 'm', "m.message == 'hello goodbye'"], (facts, engine, next) => {
+            setTimeout(() => {
+                next();
+            }, 500);
         });
     });
 
-    it.should("fire all rules", function () {
-        var fired = [];
-        var session = flow.getSession(new Message("hello"), new Message("hello goodbye"))
-            .on("fire", function (name) {
+    it('should fire all rules', () => {
+        const fired = [];
+        const session = flow.getSession(new Message('hello'), new Message('hello goodbye'))
+            .on('fire', (name) => {
                 fired.push(name);
             });
-        return session.match().then(function () {
-            assert.deepEqual(fired, ["Goodbye", "Hello"]);
-        })
-    });
-
+        return session.match().then(() => {
+            assert.deepEqual(fired, ['Goodbye', 'Hello']);
+        });
+    }).timeout(2000);
 });

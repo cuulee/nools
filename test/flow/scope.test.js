@@ -1,49 +1,49 @@
-"use strict";
-var it = require("it"),
-    assert = require("assert"),
-    nools = require("../../");
+'use strict';
 
-it.describe("scope option", function (it) {
+const assert = require('assert');
+const nools = require('../../');
 
+describe('scope option', () => {
     function isEqualTo(str, eq) {
         return str === eq;
     }
 
-    var Count = function () {
-        this.called = 0;
-    }, called = new Count();
+    class Count {
+        constructor() {
+            this.called = 0;
+        }
+    }
 
-    var flow = nools.flow("scope test", function (flow) {
-        flow.rule("hello rule", {scope: {isEqualTo: isEqualTo}}, [
-            ["or",
-                [String, "s", "isEqualTo(s, 'hello')"],
-                [String, "s", "isEqualTo(s, 'world')"]
+    const flow = nools.flow('scope test', (builder) => {
+        builder.rule('hello rule', {scope: {isEqualTo}}, [
+            ['or',
+                [String, 's', "isEqualTo(s, 'hello')"],
+                [String, 's', "isEqualTo(s, 'world')"],
             ],
-            [Count, "called", null]
-        ], function (facts) {
-            facts.called.called++;
+            [Count, 'called', null],
+        ], (facts) => {
+            facts.called.called += 1;
         });
     });
 
-    it.should("call when a string equals 'hello'", function () {
-        return flow.getSession("world", called).match().then(function () {
+    it("should call when a string equals 'hello'", () => {
+        const called = new Count();
+        return flow.getSession('world', called).match().then(() => {
             assert.equal(called.called, 1);
         });
     });
 
-    it.should("call when a string equals 'world'", function () {
-        called = new Count();
-        return flow.getSession("hello", called).match().then(function () {
+    it("should call when a string equals 'world'", () => {
+        const called = new Count();
+        return flow.getSession('hello', called).match().then(() => {
             assert.equal(called.called, 1);
         });
     });
 
-    it.should(" not call when a string that does equal 'hello' or 'world", function () {
-        called = new Count();
-        return flow.getSession("hello", "world", "test", called).match().then(function () {
+    it("should not call when a string that does equal 'hello' or 'world", () => {
+        const called = new Count();
+        return flow.getSession('hello', 'world', 'test', called).match().then(() => {
             assert.equal(called.called, 2);
         });
-
     });
-
 });

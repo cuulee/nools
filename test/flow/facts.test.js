@@ -1,43 +1,48 @@
-"use strict";
-var it = require("it"),
-    assert = require("assert"),
-    declare = require("declare.js"),
-    nools = require("../../");
-it.describe("flow#getFacts", function (it) {
+'use strict';
 
-    var called = 0;
-    var HelloFact = declare({
-        instance: {
-            value: true
+const assert = require('assert');
+const nools = require('../../');
+
+describe('flow#getFacts', () => {
+    let called = 0;
+    class HelloFact {
+        constructor() {
+            this.value = true;
         }
-    });
+    }
 
-    var flow = nools.flow("facts() flow", function (flow) {
-        flow.rule("hello rule", [
-            [HelloFact, "h"],
-            [String, "s"],
-            [Number, "n"],
-            [Object, "o"],
-            [Boolean, "b"]
-        ], function () {
-            called++;
+    const flow = nools.flow('facts() flow', (builder) => {
+        builder.rule('hello rule', [
+            [HelloFact, 'h'],
+            [String, 's'],
+            [Number, 'n'],
+            [Object, 'o'],
+            [Boolean, 'b'],
+        ], () => {
+            called += 1;
         });
     });
 
-    it.should("get all facts in the session", function () {
-        var session = flow.getSession();
-        var facts = [new HelloFact(), "Hello", 1, {}, true], i = -1, l = facts.length;
-        while (++i < l) {
+    it('should get all facts in the session', () => {
+        const session = flow.getSession();
+        const facts = [new HelloFact(), 'Hello', 1, {}, true];
+        const l = facts.length;
+        let i = 0;
+        while (i < l) {
             session.assert(facts[i]);
+            i += 1;
         }
         assert.deepEqual(session.getFacts(), facts);
     });
 
-    it.should("get all facts in the session by Type", function () {
-        var session = flow.getSession();
-        var facts = [new HelloFact(), "Hello", 1, {}, true], i = -1, l = facts.length;
-        while (++i < l) {
+    it('should get all facts in the session by Type', () => {
+        const session = flow.getSession();
+        const facts = [new HelloFact(), 'Hello', 1, {}, true];
+        const l = facts.length;
+        let i = 0;
+        while (i < l) {
             session.assert(facts[i]);
+            i += 1;
         }
         assert.deepEqual(session.getFacts(HelloFact), [facts[0]]);
         assert.deepEqual(session.getFacts(String), [facts[1]]);
@@ -45,5 +50,4 @@ it.describe("flow#getFacts", function (it) {
         assert.deepEqual(session.getFacts(Object), [facts[0], facts[3]]);
         assert.deepEqual(session.getFacts(Boolean), [facts[4]]);
     });
-
 });

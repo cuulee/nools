@@ -1,159 +1,160 @@
-"use strict";
-var it = require("it"),
-    assert = require("assert"),
-    nools = require("../../");
+'use strict';
 
-it.describe("agenda-groups", function (it) {
+const assert = require('assert');
+const nools = require('../../');
 
-    function Message(name) {
-        this.name = name;
+describe('agenda-groups', () => {
+    class Message {
+        constructor(name) {
+            this.name = name;
+        }
     }
 
-    var flow = nools.flow("agendGroups", function () {
-            this.rule("Hello World", {agendaGroup: "ag1"}, [Message, "m", "m.name == 'hello'"], function (facts) {
-                this.modify(facts.m, function () {
-                    this.name = "goodbye";
-                });
+    const agendaGroupFlow = nools.flow('agendGroups', (builder) => {
+        builder.rule('Hello World', {agendaGroup: 'ag1'}, [Message, 'm', "m.name == 'hello'"], (facts, engine) => {
+            engine.modify(facts.m, (m) => {
+                m.name = 'goodbye';
             });
+        });
 
-            this.rule("Hello World 2", {agendaGroup: "ag2"}, [Message, "m", "m.name == 'hello'"], function (facts) {
-                this.modify(facts.m, function () {
-                    this.name = "goodbye";
-                });
+        builder.rule('Hello World 2', {agendaGroup: 'ag2'}, [Message, 'm', "m.name == 'hello'"], (facts, engine) => {
+            engine.modify(facts.m, (m) => {
+                m.name = 'goodbye';
             });
+        });
 
-            this.rule("GoodBye", {agendaGroup: "ag1"}, [Message, "m", "m.name == 'goodbye'"], function (facts) {
-                //noop
-            });
+        builder.rule('GoodBye', {agendaGroup: 'ag1'}, [Message, 'm', "m.name == 'goodbye'"], () => {
+            // noop
+        });
 
-            this.rule("GoodBye 2", {agendaGroup: "ag2"}, [Message, "m", "m.name == 'goodbye'"], function (facts) {
-                //noop
-            });
-        }),
-        session;
+        builder.rule('GoodBye 2', {agendaGroup: 'ag2'}, [Message, 'm', "m.name == 'goodbye'"], () => {
+            // noop
+        });
+    });
+    let session = null;
 
-    it.beforeEach(function () {
-        session = flow.getSession();
+    beforeEach(() => {
+        session = agendaGroupFlow.getSession();
     });
 
-    it.should("only fire events in focused group", function () {
-        var events = [];
-        session.assert(new Message("hello"));
-        session.focus("ag1");
-        session.on("fire", function (name) {
+    it('should only fire events in focused group', () => {
+        let events = [];
+        session.assert(new Message('hello'));
+        session.focus('ag1');
+        session.on('fire', (name) => {
             events.push(name);
         });
         return session.match()
-            .then(function () {
-                assert.deepEqual(events, ["Hello World", "GoodBye"]);
+            .then(() => {
+                assert.deepEqual(events, ['Hello World', 'GoodBye']);
                 events = [];
-                session = flow.getSession();
-                session.assert(new Message("hello"));
-                session.focus("ag2");
-                session.on("fire", function (name) {
+                session = agendaGroupFlow.getSession();
+                session.assert(new Message('hello'));
+                session.focus('ag2');
+                session.on('fire', (name) => {
                     events.push(name);
                 });
-                return session.match().then(function () {
-                    assert.deepEqual(events, ["Hello World 2", "GoodBye 2"]);
+                return session.match().then(() => {
+                    assert.deepEqual(events, ['Hello World 2', 'GoodBye 2']);
                 });
             });
     });
 
-    it.should("should treat focus like a stack", function () {
-        var events = [];
-        session.assert(new Message("hello"));
-        session.focus("ag2");
-        session.focus("ag1");
-        session.focus("unknown");
-        session.on("fire", function (name) {
+    it('should should treat focus like a stack', () => {
+        let events = [];
+        session.assert(new Message('hello'));
+        session.focus('ag2');
+        session.focus('ag1');
+        session.focus('unknown');
+        session.on('fire', (name) => {
             events.push(name);
         });
         return session.match()
-            .then(function () {
-                assert.deepEqual(events, ["Hello World", "GoodBye", "GoodBye 2"]);
+            .then(() => {
+                assert.deepEqual(events, ['Hello World', 'GoodBye', 'GoodBye 2']);
                 events = [];
-                session = flow.getSession();
-                session.assert(new Message("hello"));
-                session.focus("ag1");
-                session.focus("ag2");
-                session.on("fire", function (name) {
+                session = agendaGroupFlow.getSession();
+                session.assert(new Message('hello'));
+                session.focus('ag1');
+                session.focus('ag2');
+                session.on('fire', (name) => {
                     events.push(name);
                 });
-                return session.match().then(function () {
-                    assert.deepEqual(events, ["Hello World 2", "GoodBye 2", "GoodBye"]);
+                return session.match().then(() => {
+                    assert.deepEqual(events, ['Hello World 2', 'GoodBye 2', 'GoodBye']);
                 });
             });
     });
-});
 
-it.describe("auto-focus", function (it) {
-    /*jshint indent*/
-    function State(name, state) {
-        this.name = name;
-        this.state = state;
-    }
+    describe('with auto-focus', () => {
+        /* jshint indent*/
+        class State {
+            constructor(name, state) {
+                this.name = name;
+                this.state = state;
+            }
+        }
 
-    var flow = nools.flow("autoFocus", function () {
-
-            this.rule("Bootstrap", [State, "a", "a.name == 'A' && a.state == 'NOT_RUN'"], function (facts) {
-                this.modify(facts.a, function () {
-                    this.state = 'FINISHED';
+        const autoFocusFlow = nools.flow('autoFocus', (builder) => {
+            builder.rule('Bootstrap', [State, 'a', "a.name == 'A' && a.state == 'NOT_RUN'"], (facts, engine) => {
+                engine.modify(facts.a, (a) => {
+                    a.state = 'FINISHED';
                 });
             });
 
-            this.rule("A to B",
+            builder.rule('A to B',
                 [
-                    [State, "a", "a.name == 'A' && a.state == 'FINISHED'"],
-                    [State, "b", "b.name == 'B' && b.state == 'NOT_RUN'"]
+                    [State, 'a', "a.name == 'A' && a.state == 'FINISHED'"],
+                    [State, 'b', "b.name == 'B' && b.state == 'NOT_RUN'"],
                 ],
-                function (facts) {
-                    this.modify(facts.b, function () {
-                        this.state = "FINISHED";
+                (facts, engine) => {
+                    engine.modify(facts.b, (b) => {
+                        b.state = 'FINISHED';
                     });
                 });
 
-            this.rule("B to C",
-                {agendaGroup: "B to C", autoFocus: true},
+            builder.rule('B to C',
+                {agendaGroup: 'B to C', autoFocus: true},
                 [
-                    [State, "b", "b.name == 'B' && b.state == 'FINISHED'"],
-                    [State, "c", "c.name == 'C' && c.state == 'NOT_RUN'"]
+                    [State, 'b', "b.name == 'B' && b.state == 'FINISHED'"],
+                    [State, 'c', "c.name == 'C' && c.state == 'NOT_RUN'"],
                 ],
-                function (facts) {
-                    this.modify(facts.c, function () {
-                        this.state = 'FINISHED';
+                (facts, engine) => {
+                    engine.modify(facts.c, (c) => {
+                        c.state = 'FINISHED';
                     });
-                    this.focus("B to D");
+                    engine.focus('B to D');
                 });
 
-            this.rule("B to D",
-                {agendaGroup: "B to D"},
+            builder.rule('B to D',
+                {agendaGroup: 'B to D'},
                 [
-                    [State, "b", "b.name == 'B' && b.state == 'FINISHED'"],
-                    [State, "d", "d.name == 'D' && d.state == 'NOT_RUN'"]
+                    [State, 'b', "b.name == 'B' && b.state == 'FINISHED'"],
+                    [State, 'd', "d.name == 'D' && d.state == 'NOT_RUN'"],
                 ],
-                function (facts) {
-                    this.modify(facts.d, function () {
-                        this.state = 'FINISHED';
+                (facts, engine) => {
+                    engine.modify(facts.d, (d) => {
+                        d.state = 'FINISHED';
                     });
                 });
-        }),
-        session;
-
-    it.beforeEach(function () {
-        session = flow.getSession();
-    });
-
-    it.should("activate agenda groups in proper order", function () {
-        session.assert(new State("A", "NOT_RUN"));
-        session.assert(new State("B", "NOT_RUN"));
-        session.assert(new State("C", "NOT_RUN"));
-        session.assert(new State("D", "NOT_RUN"));
-        var fired = [];
-        session.on("fire", function (name) {
-            fired.push(name);
         });
-        return session.match().then(function () {
-            assert.deepEqual(fired, ["Bootstrap", "A to B", "B to C", "B to D"]);
+
+        beforeEach(() => {
+            session = autoFocusFlow.getSession();
+        });
+
+        it('should activate agenda groups in proper order', () => {
+            session.assert(new State('A', 'NOT_RUN'));
+            session.assert(new State('B', 'NOT_RUN'));
+            session.assert(new State('C', 'NOT_RUN'));
+            session.assert(new State('D', 'NOT_RUN'));
+            const fired = [];
+            session.on('fire', (name) => {
+                fired.push(name);
+            });
+            return session.match().then(() => {
+                assert.deepEqual(fired, ['Bootstrap', 'A to B', 'B to C', 'B to D']);
+            });
         });
     });
 });
