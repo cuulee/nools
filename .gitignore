@@ -4,4 +4,4 @@ nools.iml
 atlassian-ide-plugin.xml
 build/
 .DS_Store
-**/**-compiled.js
+test/**/*compiled.js
