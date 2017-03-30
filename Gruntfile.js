@@ -80,7 +80,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-exec');
 
     grunt.registerTask('compile-tests', 'compiles all nools files', function () {
-        const files = grunt.file.expand('./test/rules/*.nools');
+        const files = grunt.file.expand('./test/flow/rules/*.nools');
         let count = files.length;
         const done = this.async();
 
@@ -88,7 +88,7 @@ module.exports = function (grunt) {
             if (err) {
                 done(err);
             } else {
-                count--;
+                count -= 1;
                 if (!count) {
                     done();
                 }
@@ -96,9 +96,10 @@ module.exports = function (grunt) {
         }
 
         files.forEach((file) => {
+            console.log(`Compiling ${file}`);
             const base = path.basename(file, '.nools');
             const out = path.resolve(path.dirname(file), `${base}-compiled.js`);
-            child.exec(`${path.resolve(__dirname, './bin/nools')} compile ${file} -l ../../ -n ${base}-compiled`, (err, output) => {
+            child.exec(`${path.resolve(__dirname, './bin/nools')} compile ${file} -l ../../../ -n ${base}-compiled`, (err, output) => {
                 if (!err) {
                     grunt.file.write(out, output.toString());
                 }

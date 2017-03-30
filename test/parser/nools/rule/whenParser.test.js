@@ -11,7 +11,7 @@ describe('WhenParser', () => {
         assert.deepEqual(context.constraints, [
             ['Clazz', 'c', "c.name eq 'Test'"],
         ]);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.deepEqual(context.options, {});
     });
 
@@ -22,7 +22,7 @@ describe('WhenParser', () => {
             assert.deepEqual(context.constraints, [
                 ['Clazz', 'c', "c.name eq 'Test'", {test: 'test'}],
             ]);
-            assert.equal(context.action, null);
+            assert.equal(context.action, '');
             assert.deepEqual(context.options, {});
         });
 
@@ -32,7 +32,7 @@ describe('WhenParser', () => {
             assert.deepEqual(context.constraints, [
                 ['Clazz', 'c', "c.name eq 'Test'", {$test: 'test'}],
             ]);
-            assert.equal(context.action, null);
+            assert.equal(context.action, '');
             assert.deepEqual(context.options, {});
         });
 
@@ -42,7 +42,7 @@ describe('WhenParser', () => {
             assert.deepEqual(context.constraints, [
                 ['Clazz', 'c', "c.name eq 'Test'", {test: 'test'}],
             ]);
-            assert.equal(context.action, null);
+            assert.equal(context.action, '');
             assert.deepEqual(context.options, {});
         });
 
@@ -52,7 +52,7 @@ describe('WhenParser', () => {
             assert.deepEqual(context.constraints, [
                 ['Clazz', '$c', "$c.name eq 'Test'"],
             ]);
-            assert.equal(context.action, null);
+            assert.equal(context.action, '');
             assert.deepEqual(context.options, {});
         });
 
@@ -62,7 +62,7 @@ describe('WhenParser', () => {
             assert.deepEqual(context1.constraints, [
                 ['Clazz', 'c', "c.name eq 'Test'", {test: 'test'}],
             ]);
-            assert.equal(context1.action, null);
+            assert.equal(context1.action, '');
             assert.deepEqual(context1.options, {});
         });
     });
@@ -75,7 +75,7 @@ describe('WhenParser', () => {
                 assert.deepEqual(context1.constraints, [
                     ['not', 'Clazz', 'c', "c.name eq 'Test'", {test: 'test'}],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
 
@@ -85,7 +85,7 @@ describe('WhenParser', () => {
                 assert.deepEqual(context1.constraints, [
                     ['not', 'Clazz', 'c', "c.name eq 'Test'", {test: 'test'}],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
 
@@ -95,7 +95,7 @@ describe('WhenParser', () => {
                 assert.deepEqual(context1.constraints, [
                     ['not', 'Clazz', '$c', "$c.name eq 'Test'", {$test: 'test'}],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
         });
@@ -111,7 +111,7 @@ describe('WhenParser', () => {
                         ['Clazz', 'c', "c.name eq 'Test'"],
                     ],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
 
@@ -125,7 +125,7 @@ describe('WhenParser', () => {
                         ['Clazz', 'c', "c.name eq 'Test'"],
                     ],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
 
@@ -139,7 +139,7 @@ describe('WhenParser', () => {
                         ['Clazz', '$c', "$c.name eq 'Test'"],
                     ],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
 
@@ -154,7 +154,7 @@ describe('WhenParser', () => {
                         ['Clazz', '$c', "$c.name eq 'test3'"],
                     ],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
 
@@ -170,7 +170,7 @@ describe('WhenParser', () => {
                         ['Clazz', '$c', "$c.name == 'test4'"],
                     ],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
 
@@ -187,7 +187,7 @@ describe('WhenParser', () => {
                         ['Clazz', '$c', "$c.name == 'test4'"],
                     ],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
         });
@@ -199,7 +199,7 @@ describe('WhenParser', () => {
                 assert.deepEqual(context1.constraints, [
                     ['exists', 'Clazz', 'c', "c.name eq 'Test'"],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
 
@@ -209,7 +209,7 @@ describe('WhenParser', () => {
                 assert.deepEqual(context1.constraints, [
                     ['exists', 'Clazz', 'c', "c.name eq 'Test'", {test: 't'}],
                 ]);
-                assert.equal(context1.action, null);
+                assert.equal(context1.action, '');
                 assert.deepEqual(context1.options, {});
             });
         });
@@ -223,7 +223,7 @@ describe('WhenParser', () => {
                 ['Person', 'p', "p.name eq 'Test'"],
                 ['Address', 'a', 'a.zipcode == 88847 ', 'from p.address'],
             ]);
-            assert.equal(context1.action, null);
+            assert.equal(context1.action, '');
             assert.deepEqual(context1.options, {});
         });
 
@@ -234,7 +234,7 @@ describe('WhenParser', () => {
                 ['Person', 'p', "p.name eq 'Test'"],
                 ['Address', 'a', 'a.zipcode == 88847', {zipcode: 'zipCode'}, 'from p.address'],
             ]);
-            assert.equal(context1.action, null);
+            assert.equal(context1.action, '');
             assert.deepEqual(context1.options, {});
         });
     });

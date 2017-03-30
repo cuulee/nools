@@ -1,8 +1,8 @@
 'use strict';
 
 const assert = require('assert');
-
 const flow = require('../../rules/diagnosis-compiled')();
+
 const Patient = flow.getDefined('patient');
 
 describe('compiled - diagnosis smoketest', () => {

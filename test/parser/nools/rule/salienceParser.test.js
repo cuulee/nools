@@ -5,14 +5,13 @@ const SalienceParser = require('../../../../lib/parser/nools/rule/salienceParser
 const ParserContext = require('../../../../lib/parser/nools/ruleContext');
 
 describe('SalienceParser', () => {
-
     it('should parse rules with a "salience"', () => {
         const parser = new SalienceParser(new ParserContext("salience: 10, when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}", 'agendaGroup.test'));
         const context = parser.parse();
 
         assert.deepEqual(context.options, {priority: 10});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -22,7 +21,7 @@ describe('SalienceParser', () => {
 
         assert.deepEqual(context.options, {priority: 10});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -33,7 +32,7 @@ describe('SalienceParser', () => {
 
         assert.deepEqual(context.options, {priority: 10});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -43,7 +42,7 @@ describe('SalienceParser', () => {
 
         assert.deepEqual(context.options, {priority: 10});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 

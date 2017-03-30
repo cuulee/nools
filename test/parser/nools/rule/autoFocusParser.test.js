@@ -11,7 +11,7 @@ describe('AutoFocusParser', () => {
 
         assert.deepEqual(context.options, {autoFocus: true});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -21,7 +21,7 @@ describe('AutoFocusParser', () => {
 
         assert.deepEqual(context.options, {autoFocus: false});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -31,7 +31,7 @@ describe('AutoFocusParser', () => {
 
         assert.deepEqual(context.options, {autoFocus: true});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -41,7 +41,7 @@ describe('AutoFocusParser', () => {
 
         assert.deepEqual(context.options, {autoFocus: false});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 

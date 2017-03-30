@@ -4,7 +4,6 @@ const assert = require('assert');
 const flow = require('../rules/getFacts-compiled')();
 
 describe('compiled - getFacts from action', () => {
-
     it('should get all facts', () => {
         const session = flow.getSession().focus('get-facts');
         const facts = [

@@ -4,15 +4,14 @@ const assert = require('assert');
 const nools = require('../../lib');
 
 describe('issue - 89', () => {
-
     class Person {
         constructor(address) {
             this.address = address;
         }
     }
 
-    const flow = nools.flow('issue 89', function () {
-        this.rule('from with missing property', [
+    const flow = nools.flow('issue 89', (builder) => {
+        builder.rule('from with missing property', [
             [Person, 'p'],
             [Number, 'zipcode', 'from p.address.zipcode'],
         ], () => {

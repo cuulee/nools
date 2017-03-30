@@ -67,8 +67,11 @@
   "author": "Doug Martin (http://c2fo.com)",
   "main": "index.js",
   "scripts": {
-    "test": "it -r spec",
-    "create-doc": "rm -rf docs/* && coddoc -d ./lib -f multi-html"
+    "create-doc": "rm -rf docs/* && coddoc -d ./lib -f multi-html",
+    "test": "npm run eslint && npm run mocha",
+    "eslint": "./node_modules/eslint/bin/eslint.js lib/. test/.",
+    "eslint-fix": "./node_modules/eslint/bin/eslint.js lib/. test/. --fix",
+    "mocha": "mocha test/ --recursive"
   },
   "directories": {
     "lib": "lib"

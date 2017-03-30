@@ -44,14 +44,15 @@ describe('dsl - events', () => {
 
     it('should emit when rules are fired', (next) => {
         const m = new Message('hello world');
-        let fire = [
-                ['Hello', 'hello world'],
-                ['Goodbye', 'hello world goodbye'],
-            ],
-            i = 0;
+        const fire = [
+            ['Hello', 'hello world'],
+            ['Goodbye', 'hello world goodbye'],
+        ];
+        let i = 0;
         session.on('fire', (name, facts) => {
             assert.equal(name, fire[i][0]);
-            assert.equal(facts.m.message, fire[i++][1]);
+            assert.equal(facts.m.message, fire[i][1]);
+            i += 1;
         });
         session.assert(m);
         session.match(() => {

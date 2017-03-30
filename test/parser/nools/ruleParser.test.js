@@ -6,9 +6,11 @@ const RuleParser = require('../../../lib/parser/nools/ruleParser');
 const ParserContext = require('../../../lib/parser/nools/parserContext');
 
 describe('RuleParser', () => {
-
     it('should parse a simple rule', () => {
-        const parser = new RuleParser(new ParserContext("rule TestRule {when {c : Clazz c.name eq 'Test';} then {console.log(test);}}", 'rule.test', null));
+        const parser = new RuleParser(new ParserContext(
+            "rule TestRule {when {c : Clazz c.name eq 'Test';} then {console.log(test);}}",
+            'rule.test',
+            null));
         const context = parser.parse();
         assert(context.rules.length === 1);
         const rule = context.rules[0];
@@ -24,7 +26,9 @@ describe('RuleParser', () => {
     });
 
     it('should parse rules with a string name in double quotes and e', () => {
-        const parser = new RuleParser(new ParserContext('rule "' + 'test rule' + '"' + " { when { c : Clazz {test : test} c.name eq 'Test';} then {console.log($test);}}", 'rule.test', null));
+        const parser = new RuleParser(new ParserContext(
+            'rule "test rule" { when { c : Clazz {test : test} c.name eq \'Test\';} then {console.log($test);}}',
+            'rule.test', null));
         const context = parser.parse();
         assert(context.rules.length === 1);
         const rule = context.rules[0];
@@ -40,7 +44,10 @@ describe('RuleParser', () => {
     });
 
     it('should parse rules with a string name in single quotes', () => {
-        const parser = new RuleParser(new ParserContext("rule 'test rule' { when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}", 'rule.test', null));
+        const parser = new RuleParser(new ParserContext(
+            "rule 'test rule' { when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}",
+            'rule.test',
+            null));
         const context = parser.parse();
         assert(context.rules.length === 1);
         const rule = context.rules[0];
@@ -94,7 +101,7 @@ describe('RuleParser', () => {
         assert.throws(() => {
             // missing end curly
             parser.parse();
-        }, /Unexpected token\. Expected '\{' found ':' in source 'rule TestRule : \{ when \{c : Clazz c.name eq 'Test' \{test : test}} then {console\.log\(\$test\);\}'/);
+        }, /Unexpected token\. Expected '\{' found ':' in source 'rule TestRule : \{ when \{c : Clazz c.name eq 'Test' \{test : test}} then \{console\.log\(\$test\);\}'/);
     });
 
     it('should throw an error for a missing name', () => {

@@ -6,7 +6,6 @@ const flow = require('../rules/orRule-notConditions-compiled')();
 const Count = flow.getDefined('count');
 
 describe('compiled - or rule with not conditions', () => {
-
     const count = new Count();
 
     it('should activate for each fact that does not exist', () => {

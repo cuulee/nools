@@ -5,7 +5,6 @@ const nools = require('../../../lib');
 const resolve = require('path').resolve;
 
 describe('dsl - not rule', () => {
-
     const flow = nools.compile(resolve(__dirname, '../rules/notRule.nools'));
     const Count = flow.getDefined('count');
     const called = new Count();

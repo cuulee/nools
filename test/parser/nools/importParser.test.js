@@ -31,7 +31,7 @@ describe('ImportParser', () => {
 
         it('should parse a relative path and use the file path', () => {
             let called = false;
-            fs.readFileSync = function (file, encoding) {
+            fs.readFileSync = (file, encoding) => {
                 assert.equal(file, path.resolve('./rules', './test.nools').replace(/\\/g, '/'));
                 assert.equal(encoding, 'utf8');
                 called = true;
@@ -44,7 +44,7 @@ describe('ImportParser', () => {
 
         it('should parse a absolute path and not change the location ', () => {
             let called = false;
-            fs.readFileSync = function (file, encoding) {
+            fs.readFileSync = (file, encoding) => {
                 assert.equal(file, path.resolve('/rules/test.nools').replace(/\\/g, '/'));
                 assert.equal(encoding, 'utf8');
                 called = true;
@@ -57,7 +57,7 @@ describe('ImportParser', () => {
 
         it("should should parse import with optional ';'", () => {
             let called = false;
-            fs.readFileSync = function (file, encoding) {
+            fs.readFileSync = (file, encoding) => {
                 assert.equal(file, path.resolve('/rules/test.nools').replace(/\\/g, '/'));
                 assert.equal(encoding, 'utf8');
                 called = true;

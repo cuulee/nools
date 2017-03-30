@@ -12,8 +12,8 @@ describe('simple rule', () => {
         }
     }
 
-    const flow = nools.flow('hello world flow', (flow) => {
-        flow.rule('hello rule', [HelloFact, 'h'], () => {
+    const flow = nools.flow('hello world flow', (builder) => {
+        builder.rule('hello rule', [HelloFact, 'h'], () => {
             called += 1;
         });
     });

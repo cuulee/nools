@@ -4,11 +4,9 @@ const assert = require('assert');
 const nools = require('../../../lib');
 
 describe('flow#rule', () => {
-    let called = 0;
     const flow = nools.flow('test rule flow');
     it('should create a rule', () => {
         flow.rule('test rule', [String, 's', "s == 'hello'"], () => {
-            called += 1;
         });
         assert(flow.containsRule('test rule'));
     });
@@ -19,7 +17,6 @@ describe('flow#rule', () => {
             [String, 's2', "s2 == 'world'"],
             [String, 's3', "s3 == 'Hi'"],
         ], () => {
-            called += 1;
         });
         assert(flow.containsRule('test rule2'));
     });
@@ -30,7 +27,6 @@ describe('flow#rule', () => {
             [String, 's2', "s2 == 'world'"],
             [String, 's3', "s3 == 'Hi'"],
         ], () => {
-            called += 1;
         });
         assert(flow.containsRule('test rule3'));
 
@@ -41,7 +37,6 @@ describe('flow#rule', () => {
             [String, 's4', "s4 == 'what'"],
             [String, 's5', "s5 == 'for'"],
         ], () => {
-            called += 1;
         });
         assert(flow.containsRule('test rule4'));
     });

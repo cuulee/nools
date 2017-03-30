@@ -9,11 +9,6 @@ describe('dsl - defined objects', () => {
     const Point = flow.getDefined('point');
     const Line = flow.getDefined('line');
 
-    let session = null;
-    beforeEach(() => {
-        session = flow.getSession();
-    });
-
     it('should allow creating a new defined object', () => {
         const point = new Point(1, 2);
         assert.equal(point.x, 1);

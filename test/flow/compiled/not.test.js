@@ -6,8 +6,6 @@ const flow = require('../rules/notRule-compiled')();
 const called = new (flow.getDefined('count'))();
 
 describe('compiled - not rule', () => {
-
-
     it("should call when a string that does not equal 'hello'", () => {
         return flow.getSession('world', called).match().then(() => {
             assert.equal(called.called, 1);

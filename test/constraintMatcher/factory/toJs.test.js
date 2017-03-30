@@ -1,4 +1,5 @@
 'use strict';
+
 const assert = require('assert');
 const parser = require('../../../lib/parser');
 const factory = require('../../../lib/constraintMatcher/factory');

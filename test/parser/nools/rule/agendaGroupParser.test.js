@@ -10,7 +10,7 @@ describe('AgendaGroupParser', () => {
         const context = parser.parse();
         assert.deepEqual(context.options, {agendaGroup: 'group1'});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -19,7 +19,7 @@ describe('AgendaGroupParser', () => {
         const context = parser.parse();
         assert.deepEqual(context.options, {agendaGroup: 'group1'});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -28,7 +28,7 @@ describe('AgendaGroupParser', () => {
         const context = parser.parse();
         assert.deepEqual(context.options, {agendaGroup: 'group one'});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -37,7 +37,7 @@ describe('AgendaGroupParser', () => {
         const context = parser.parse();
         assert.deepEqual(context.options, {agendaGroup: 'group one'});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -46,7 +46,7 @@ describe('AgendaGroupParser', () => {
         const context = parser.parse();
         assert.deepEqual(context.options, {agendaGroup: "group 'one'"});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -55,7 +55,7 @@ describe('AgendaGroupParser', () => {
         const context = parser.parse();
         assert.deepEqual(context.options, {agendaGroup: 'group "one"'});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, " when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 
@@ -64,7 +64,7 @@ describe('AgendaGroupParser', () => {
         const context = parser.parse();
         assert.deepEqual(context.options, {agendaGroup: 'group'});
         assert(context.constraints.length === 0);
-        assert.equal(context.action, null);
+        assert.equal(context.action, '');
         assert.equal(context.src, "when { c : Clazz c.name eq 'Test' {test : test}} then {console.log($test);}}");
     });
 

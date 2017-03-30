@@ -5,7 +5,6 @@ const parser = require('../../lib/parser');
 const helper = require('../../lib/constraintMatcher/helper');
 
 describe('constraint matcher helper', () => {
-
     describe('.getIdentifiers', () => {
         it('should create the correct atoms for and expressions', () => {
             let identifiers = helper.getIdentifiers(parser.parseConstraint('isFalse(a)'), 'a');

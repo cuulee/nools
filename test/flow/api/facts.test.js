@@ -4,7 +4,6 @@ const assert = require('assert');
 const nools = require('../../../lib');
 
 describe('flow#getFacts', () => {
-    let called = 0;
     class HelloFact {
         constructor() {
             this.value = true;
@@ -19,7 +18,6 @@ describe('flow#getFacts', () => {
             [Object, 'o'],
             [Boolean, 'b'],
         ], () => {
-            called += 1;
         });
     });
 
