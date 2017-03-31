@@ -1,1 +1,2 @@
 test/flow/rules/*.js
+lib/parser/constraint/parser.js
