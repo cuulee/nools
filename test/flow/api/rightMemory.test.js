@@ -2,9 +2,9 @@
 
 const assert = require('assert');
 const is = require('is-extended');
-const Context = require('../../../lib/context');
-const WorkingMemory = require('../../../lib/workingMemory').WorkingMemory;
-const RightMemory = require('../../../lib/nodes/misc/rightMemory');
+const Context = require('../../../lib/flow/rule/nodes/context');
+const WorkingMemory = require('../../../lib/flow/workingMemory').WorkingMemory;
+const RightMemory = require('../../../lib/flow/rule/nodes/misc/rightMemory');
 
 describe('BetaNode RightMemory', () => {
     it('should add a context to the memory', () => {

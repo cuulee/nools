@@ -1,10 +1,10 @@
 'use strict';
 
 const assert = require('assert');
-const Context = require('../../../lib/context');
+const Context = require('../../../lib/flow/rule/nodes/context');
 const is = require('is-extended');
-const WorkingMemory = require('../../../lib/workingMemory').WorkingMemory;
-const LeftMemory = require('../../../lib/nodes/misc/leftMemory');
+const WorkingMemory = require('../../../lib/flow/workingMemory').WorkingMemory;
+const LeftMemory = require('../../../lib/flow/rule/nodes/misc/leftMemory');
 
 describe('BetaNode LeftMemory', () => {
     it('should add a context to the memory', () => {
