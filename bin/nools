@@ -1,55 +1,59 @@
 #!/usr/bin/env node
 
+'use strict';
 
-var nools = require(".."),
-    path = require("path"),
-    fs = require("fs"),
-    path = require("path"),
-    stdout = process.stdout,
-    template = fs.readFileSync(path.join(__dirname, "assets", "compile_wrapper.tmpl"), "utf8"),
-    str = require("string-extended"),
-    uglifyjs = require("uglify-js"),
-    program = require('commander');
+const nools = require('..');
+const path = require('path');
+const fs = require('fs');
+const str = require('string-extended');
+const uglifyjs = require('uglify-js');
+const program = require('commander');
 
-function uglify(source, program) {
-    try {
-        if (program.no_minification) {
-            return source;
-        } else if (program.beautify) {
-            return uglifyjs.minify(source, {fromString: true, mangle: false, compress: false, output: {beautify: true}}).code;
-        } else {
-            return uglifyjs.minify(source, {fromString: true, mangle: false}).code;
-        }
-    } catch (e) {
-        console.error(e.message);
-        console.error(e.stack);
+const stdout = process.stdout;
+const template = fs.readFileSync(path.join(__dirname, 'assets', 'compile_wrapper.tmpl'), 'utf8');
+
+function uglify(source, options) {
+    if (options.no_minification) {
+        return source;
     }
+    if (options.beautify) {
+        return uglifyjs.minify(source, {
+            fromString: true,
+            mangle: false,
+            compress: false,
+            output: {beautify: true},
+        }).code;
+    }
+    return uglifyjs.minify(source, {fromString: true, mangle: false}).code;
 }
 
 program
     .version('0.0.1');
 
 
-program.command("compile")
+program.command('compile')
     .usage('[options] <file ...>')
-    .description("compile nools dsl")
-    .option("-n --name [value]", "name of the flow to compile, defaults to the name of the file less the extension")
-    .option("-l --nools_location [value]", "location to look for nools when requiring it")
-    .option("-u --no_minification", "Do not minify the generated script")
-    .option("-b --beautify", "beautify the generated source")
+    .description('compile nools dsl')
+    .option('-n --name [value]', 'name of the flow to compile, defaults to the name of the file less the extension')
+    .option('-l --nools_location [value]', 'location to look for nools when requiring it')
+    .option('-u --no_minification', 'Do not minify the generated script')
+    .option('-b --beautify', 'beautify the generated source')
     .action(function () {
-        var files = Array.prototype.slice.call(arguments);
-        var program = files.pop();
-        var noolsLocation = program["nools_location"] || "nools";
-        files.forEach(function (file) {
-            var name = program.name || path.basename(file, path.extname(file));
-            stdout.write(uglify(str.format(template, { source: nools.transpile(path.resolve(process.cwd(), file), {name: name}), noolsLocation: noolsLocation}), program));
+        const files = [...arguments];
+        const prog = files.pop();
+        const noolsLocation = prog.nools_location || 'nools';
+        files.forEach((file) => {
+            const name = prog.name || path.basename(file, path.extname(file));
+            const source = nools.transpile(path.resolve(process.cwd(), file), {name});
+            try {
+                stdout.write(uglify(str.format(template, {source, noolsLocation}), prog));
+            } catch (e) {
+                console.error(e.message);
+                console.error(e.stack);
+                process.exit(1);
+            }
         });
     });
 
 program.parse(process.argv);
-
-
-
-
 

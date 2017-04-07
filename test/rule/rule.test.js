@@ -1,21 +1,22 @@
 'use strict';
 
 const assert = require('assert');
-const patterns = require('../lib/patterns');
-const atoms = require('../lib/atoms');
-const rules = require('../lib/rule');
+const patterns = require('../../lib/patterns');
+const atoms = require('../../lib/atoms');
+const Rule = require('../../lib/rule');
 
-function cb() {
-}
 
 describe('Rule', () => {
     describe('#createRule', () => {
+        function cb() {
+        }
+
         describe('with strings', () => {
             it('should create for string', () => {
-                let rule = rules.createRule('My Rule', ['String', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['String', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -28,10 +29,10 @@ describe('Rule', () => {
             });
 
             it('should create for String', () => {
-                let rule = rules.createRule('My Rule', ['string', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['string', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -45,10 +46,10 @@ describe('Rule', () => {
 
 
             it('should create for number', () => {
-                let rule = rules.createRule('My Rule', ['number', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['number', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -61,10 +62,10 @@ describe('Rule', () => {
             });
 
             it('should create for Number', () => {
-                let rule = rules.createRule('My Rule', ['Number', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['Number', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -77,10 +78,10 @@ describe('Rule', () => {
             });
 
             it('should create for date', () => {
-                let rule = rules.createRule('My Rule', ['date', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['date', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -93,10 +94,10 @@ describe('Rule', () => {
             });
 
             it('should create for Date', () => {
-                let rule = rules.createRule('My Rule', ['Date', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['Date', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -110,10 +111,10 @@ describe('Rule', () => {
 
 
             it('should create for array', () => {
-                let rule = rules.createRule('My Rule', ['array', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['array', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -126,10 +127,10 @@ describe('Rule', () => {
             });
 
             it('should create for Array', () => {
-                let rule = rules.createRule('My Rule', ['Array', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['Array', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -142,10 +143,10 @@ describe('Rule', () => {
             });
 
             it('should create for boolean', () => {
-                let rule = rules.createRule('My Rule', ['boolean', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['boolean', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -158,10 +159,10 @@ describe('Rule', () => {
             });
 
             it('should create for Boolean', () => {
-                let rule = rules.createRule('My Rule', ['Boolean', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['Boolean', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -174,10 +175,10 @@ describe('Rule', () => {
             });
 
             it('should create for regexp', () => {
-                let rule = rules.createRule('My Rule', ['regexp', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['regexp', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -190,10 +191,10 @@ describe('Rule', () => {
             });
 
             it('should create for Regexp', () => {
-                let rule = rules.createRule('My Rule', ['RegExp', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['RegExp', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -206,10 +207,10 @@ describe('Rule', () => {
             });
 
             it('should create for object', () => {
-                let rule = rules.createRule('My Rule', ['object', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['object', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -222,10 +223,10 @@ describe('Rule', () => {
             });
 
             it('should create for Object', () => {
-                let rule = rules.createRule('My Rule', ['Object', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['Object', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -238,10 +239,10 @@ describe('Rule', () => {
             });
 
             it('should create for hash', () => {
-                let rule = rules.createRule('My Rule', ['hash', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['hash', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -254,10 +255,10 @@ describe('Rule', () => {
             });
 
             it('should create for Hash', () => {
-                let rule = rules.createRule('My Rule', ['Hash', 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', ['Hash', 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -278,10 +279,10 @@ describe('Rule', () => {
             }
 
             it('should create for String function', () => {
-                let rule = rules.createRule('My Rule', [String, 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [String, 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -294,10 +295,10 @@ describe('Rule', () => {
             });
 
             it('should create for Number function', () => {
-                let rule = rules.createRule('My Rule', [Number, 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [Number, 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -310,10 +311,10 @@ describe('Rule', () => {
             });
 
             it('should create for Date function', () => {
-                let rule = rules.createRule('My Rule', [Date, 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [Date, 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -326,13 +327,13 @@ describe('Rule', () => {
             });
 
             it('should create for []', () => {
-                let rule = rules.createRule('My Rule', [
+                const rules = Rule.createRules('My Rule', [
                     [],
                     's',
                 ], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -345,10 +346,10 @@ describe('Rule', () => {
             });
 
             it('should create for Array function', () => {
-                let rule = rules.createRule('My Rule', [Array, 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [Array, 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -362,10 +363,10 @@ describe('Rule', () => {
 
 
             it('should create for Boolean function', () => {
-                let rule = rules.createRule('My Rule', [Boolean, 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [Boolean, 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -378,10 +379,10 @@ describe('Rule', () => {
             });
 
             it('should create for RegExp function', () => {
-                let rule = rules.createRule('My Rule', [RegExp, 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [RegExp, 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -395,10 +396,10 @@ describe('Rule', () => {
 
 
             it('should create for Object function', () => {
-                let rule = rules.createRule('My Rule', [Object, 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [Object, 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -411,10 +412,10 @@ describe('Rule', () => {
             });
 
             it('should create for custom functions', () => {
-                let rule = rules.createRule('My Rule', [MyObject, 's'], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [MyObject, 's'], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -433,10 +434,10 @@ describe('Rule', () => {
             }
 
             it('should create for String function with custom constraint', () => {
-                let rule = rules.createRule('My Rule', [String, 's', customContraint], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', [String, 's', customContraint], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -457,10 +458,10 @@ describe('Rule', () => {
             }
 
             it('should create for String function with custom constraint', () => {
-                let rule = rules.createRule('My Rule', {scope: {MyType}}, ['MyType', 's', "s.name === 'X'"], cb);
-                assert(rule);
-                assert(rule.length === 1);
-                rule = rule[0];
+                const rules = Rule.createRules('My Rule', {scope: {MyType}}, ['MyType', 's', "s.name === 'X'"], cb);
+                assert(rules);
+                assert(rules.length === 1);
+                const rule = rules[0];
                 assert.equal(rule.name, 'My Rule');
                 assert(rule.pattern);
                 const pattern = rule.pattern;
@@ -473,13 +474,13 @@ describe('Rule', () => {
         });
 
         it('should create a composite rule', () => {
-            let rule = rules.createRule('My Rule', [
+            const rules = Rule.createRules('My Rule', [
                 ['string', 's'],
                 ['string', 's2', 's2 == s'],
             ], cb);
-            assert(rule);
-            assert(rule.length === 1);
-            rule = rule[0];
+            assert(rules);
+            assert(rules.length === 1);
+            const rule = rules[0];
             assert.equal(rule.name, 'My Rule');
             assert(rule.pattern);
             const pattern = rule.pattern;
@@ -488,25 +489,25 @@ describe('Rule', () => {
             assert(pattern.rightPattern instanceof patterns.ObjectPattern);
             assert.equal(pattern.leftPattern.alias, 's');
             assert.equal(pattern.rightPattern.alias, 's2');
-            let constrnts = pattern.leftPattern.constraints;
-            assert(constrnts.length === 2);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.TrueAtom);
-            constrnts = pattern.rightPattern.constraints;
-            assert(constrnts.length === 2);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.ReferenceAtom);
+            const leftConstraints = pattern.leftPattern.constraints;
+            assert(leftConstraints.length === 2);
+            assert(leftConstraints[0] instanceof atoms.ObjectAtom);
+            assert(leftConstraints[1] instanceof atoms.TrueAtom);
+            const rightConstraints = pattern.rightPattern.constraints;
+            assert(rightConstraints.length === 2);
+            assert(rightConstraints[0] instanceof atoms.ObjectAtom);
+            assert(rightConstraints[1] instanceof atoms.ReferenceAtom);
             assert.strictEqual(rule.cb, cb);
         });
 
         it('should create a not pattern', () => {
-            let rule = rules.createRule('My Rule', [
+            const rules = Rule.createRules('My Rule', [
                 ['string', 's'],
                 ['not', 'string', 's2', 's2 == s'],
             ], cb);
-            assert(rule);
-            assert(rule.length === 1);
-            rule = rule[0];
+            assert(rules);
+            assert(rules.length === 1);
+            const rule = rules[0];
             assert.equal(rule.name, 'My Rule');
             assert(rule.pattern);
             const pattern = rule.pattern;
@@ -515,19 +516,19 @@ describe('Rule', () => {
             assert(pattern.rightPattern instanceof patterns.NotPattern);
             assert.equal(pattern.leftPattern.alias, 's');
             assert.equal(pattern.rightPattern.alias, 's2');
-            let constrnts = pattern.leftPattern.constraints;
-            assert(constrnts.length === 2);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.TrueAtom);
-            constrnts = pattern.rightPattern.constraints;
-            assert(constrnts.length === 2);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.ReferenceAtom);
+            const leftConstraints = pattern.leftPattern.constraints;
+            assert(leftConstraints.length === 2);
+            assert(leftConstraints[0] instanceof atoms.ObjectAtom);
+            assert(leftConstraints[1] instanceof atoms.TrueAtom);
+            const rightConstraints = pattern.rightPattern.constraints;
+            assert(rightConstraints.length === 2);
+            assert(rightConstraints[0] instanceof atoms.ObjectAtom);
+            assert(rightConstraints[1] instanceof atoms.ReferenceAtom);
             assert.strictEqual(rule.cb, cb);
         });
 
         it('should create a or pattern', () => {
-            const ruleArr = rules.createRule('My Rule', [
+            const ruleArr = Rule.createRules('My Rule', [
                 ['string', 's'],
                 ['or',
                     ['string', 's2', 's2 == s'],
@@ -546,20 +547,20 @@ describe('Rule', () => {
                 assert(pattern.rightPattern instanceof patterns.ObjectPattern);
                 assert.equal(pattern.leftPattern.alias, 's');
                 assert.equal(pattern.rightPattern.alias, 's2');
-                let constrnts = pattern.leftPattern.constraints;
-                assert(constrnts.length === 2);
-                assert(constrnts[0] instanceof atoms.ObjectAtom);
-                assert(constrnts[1] instanceof atoms.TrueAtom);
-                constrnts = pattern.rightPattern.constraints;
-                assert(constrnts.length === 2);
-                assert(constrnts[0] instanceof atoms.ObjectAtom);
-                assert(constrnts[1] instanceof atoms[i === 0 ? 'ReferenceAtom' : 'EqualityAtom']);
+                const leftConstraints = pattern.leftPattern.constraints;
+                assert(leftConstraints.length === 2);
+                assert(leftConstraints[0] instanceof atoms.ObjectAtom);
+                assert(leftConstraints[1] instanceof atoms.TrueAtom);
+                const rightConstraints = pattern.rightPattern.constraints;
+                assert(rightConstraints.length === 2);
+                assert(rightConstraints[0] instanceof atoms.ObjectAtom);
+                assert(rightConstraints[1] instanceof atoms[i === 0 ? 'ReferenceAtom' : 'EqualityAtom']);
                 assert.strictEqual(rule.cb, cb);
             }
         });
 
         it('should include reference store in constraints', () => {
-            const ruleArr = rules.createRule('My Rule', [
+            const ruleArr = Rule.createRules('My Rule', [
                 ['Hash', 'h', {name: 'name'}],
                 ['string', 's2', 's2 == name', {length: 'length'}],
             ], cb);
@@ -575,21 +576,21 @@ describe('Rule', () => {
             assert(pattern.rightPattern instanceof patterns.ObjectPattern);
             assert.equal(pattern.leftPattern.alias, 'h');
             assert.equal(pattern.rightPattern.alias, 's2');
-            let constrnts = pattern.leftPattern.constraints;
-            assert(constrnts.length === 3);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.TrueAtom);
-            assert(constrnts[2] instanceof atoms.HashAtom);
-            constrnts = pattern.rightPattern.constraints;
-            assert(constrnts.length === 3);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.ReferenceAtom);
-            assert(constrnts[2] instanceof atoms.HashAtom);
+            const leftConstraints = pattern.leftPattern.constraints;
+            assert(leftConstraints.length === 3);
+            assert(leftConstraints[0] instanceof atoms.ObjectAtom);
+            assert(leftConstraints[1] instanceof atoms.TrueAtom);
+            assert(leftConstraints[2] instanceof atoms.HashAtom);
+            const rightConstraints = pattern.rightPattern.constraints;
+            assert(rightConstraints.length === 3);
+            assert(rightConstraints[0] instanceof atoms.ObjectAtom);
+            assert(rightConstraints[1] instanceof atoms.ReferenceAtom);
+            assert(rightConstraints[2] instanceof atoms.HashAtom);
             assert.strictEqual(rule.cb, cb);
         });
 
         it('should should include from constraints', () => {
-            const ruleArr = rules.createRule('My Rule', [
+            const ruleArr = Rule.createRules('My Rule', [
                 ['Hash', 'h', {name: 'name'}],
                 ['string', 's2', 's2 == name', {length: 'length'}, 'from name'],
             ], cb);
@@ -605,21 +606,21 @@ describe('Rule', () => {
             assert(pattern.rightPattern instanceof patterns.FromPattern);
             assert.equal(pattern.leftPattern.alias, 'h');
             assert.equal(pattern.rightPattern.alias, 's2');
-            let constrnts = pattern.leftPattern.constraints;
-            assert(constrnts.length === 3);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.TrueAtom);
-            assert(constrnts[2] instanceof atoms.HashAtom);
-            constrnts = pattern.rightPattern.constraints;
-            assert(constrnts.length === 3);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.ReferenceAtom);
-            assert(constrnts[2] instanceof atoms.HashAtom);
+            const leftConstraints = pattern.leftPattern.constraints;
+            assert(leftConstraints.length === 3);
+            assert(leftConstraints[0] instanceof atoms.ObjectAtom);
+            assert(leftConstraints[1] instanceof atoms.TrueAtom);
+            assert(leftConstraints[2] instanceof atoms.HashAtom);
+            const rightConstraints = pattern.rightPattern.constraints;
+            assert(rightConstraints.length === 3);
+            assert(rightConstraints[0] instanceof atoms.ObjectAtom);
+            assert(rightConstraints[1] instanceof atoms.ReferenceAtom);
+            assert(rightConstraints[2] instanceof atoms.HashAtom);
             assert(pattern.rightPattern.from instanceof atoms.FromAtom);
         });
 
         it('should should include from constraints', () => {
-            const ruleArr = rules.createRule('My Rule', [
+            const ruleArr = Rule.createRules('My Rule', [
                 ['Hash', 'h', {name: 'name'}],
                 ['string', 's2', 's2 == name', {length: 'length'}, 'from [1,2,3,4]'],
             ], cb);
@@ -635,21 +636,21 @@ describe('Rule', () => {
             assert(pattern.rightPattern instanceof patterns.FromPattern);
             assert.equal(pattern.leftPattern.alias, 'h');
             assert.equal(pattern.rightPattern.alias, 's2');
-            let constrnts = pattern.leftPattern.constraints;
-            assert(constrnts.length === 3);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.TrueAtom);
-            assert(constrnts[2] instanceof atoms.HashAtom);
-            constrnts = pattern.rightPattern.constraints;
-            assert(constrnts.length === 3);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.ReferenceAtom);
-            assert(constrnts[2] instanceof atoms.HashAtom);
+            const leftConstraints = pattern.leftPattern.constraints;
+            assert(leftConstraints.length === 3);
+            assert(leftConstraints[0] instanceof atoms.ObjectAtom);
+            assert(leftConstraints[1] instanceof atoms.TrueAtom);
+            assert(leftConstraints[2] instanceof atoms.HashAtom);
+            const rightConstraints = pattern.rightPattern.constraints;
+            assert(rightConstraints.length === 3);
+            assert(rightConstraints[0] instanceof atoms.ObjectAtom);
+            assert(rightConstraints[1] instanceof atoms.ReferenceAtom);
+            assert(rightConstraints[2] instanceof atoms.HashAtom);
             assert(pattern.rightPattern.from instanceof atoms.FromAtom);
         });
 
         it('should should include exists constraints', () => {
-            const ruleArr = rules.createRule('My Rule', [
+            const ruleArr = Rule.createRules('My Rule', [
                 ['exists', 'Hash', 'h', {name: 'name'}],
                 ['exists', 'string', 's2', 's2 == name', {length: 'length'}, 'from [1,2,3,4]'],
             ], cb);
@@ -665,17 +666,64 @@ describe('Rule', () => {
             assert(pattern.rightPattern instanceof patterns.FromExistsPattern);
             assert.equal(pattern.leftPattern.alias, 'h');
             assert.equal(pattern.rightPattern.alias, 's2');
-            let constrnts = pattern.leftPattern.constraints;
-            assert(constrnts.length === 3);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.TrueAtom);
-            assert(constrnts[2] instanceof atoms.HashAtom);
-            constrnts = pattern.rightPattern.constraints;
-            assert(constrnts.length === 3);
-            assert(constrnts[0] instanceof atoms.ObjectAtom);
-            assert(constrnts[1] instanceof atoms.ReferenceAtom);
-            assert(constrnts[2] instanceof atoms.HashAtom);
+            const leftConstraints = pattern.leftPattern.constraints;
+            assert(leftConstraints.length === 3);
+            assert(leftConstraints[0] instanceof atoms.ObjectAtom);
+            assert(leftConstraints[1] instanceof atoms.TrueAtom);
+            assert(leftConstraints[2] instanceof atoms.HashAtom);
+            const rightConstraints = pattern.rightPattern.constraints;
+            assert(rightConstraints.length === 3);
+            assert(rightConstraints[0] instanceof atoms.ObjectAtom);
+            assert(rightConstraints[1] instanceof atoms.ReferenceAtom);
+            assert(rightConstraints[2] instanceof atoms.HashAtom);
             assert(pattern.rightPattern.from instanceof atoms.FromAtom);
+        });
+    });
+
+    describe('#fire', () => {
+        it('should pass in the factHash', () => {
+            const rule = new Rule('test', {}, new patterns.InitialFactPattern(), (factHash) => {
+                assert.deepEqual(factHash, {hello: 'world'});
+                return 'called';
+            });
+            return rule.fire({}, {factHash: {hello: 'world'}}).then(res => assert.equal(res, 'called'));
+        });
+
+        it('should pass in the flow', () => {
+            const rule = new Rule('test', {}, new patterns.InitialFactPattern(), (factHash, flow) => {
+                assert.deepEqual(flow, {flow: true});
+                assert.deepEqual(factHash, {hello: 'world'});
+                return 'called';
+            });
+            return rule.fire({flow: true}, {factHash: {hello: 'world'}}).then(res => assert.equal(res, 'called'));
+        });
+
+        it('should pass in a callback function if the cb accepts 3 arguments', () => {
+            const rule = new Rule('test', {}, new patterns.InitialFactPattern(), (factHash, flow, cb) => {
+                cb(null, 'called');
+            });
+            return rule.fire({}, {factHash: {hello: 'world'}}).then(res => assert.equal(res, 'called'));
+        });
+
+        it('should pass handle a returned Promise', () => {
+            const rule = new Rule('test', {}, new patterns.InitialFactPattern(), () => {
+                return Promise.resolve('promiseCalled');
+            });
+            return rule.fire({}, {factHash: {hello: 'world'}}).then(res => assert.equal(res, 'promiseCalled'));
+        });
+
+        it('should return a rejected promise if an error is thrown', () => {
+            const rule = new Rule('test', {}, new patterns.InitialFactPattern(), () => {
+                throw new Error('Oops');
+            });
+            return rule.fire({}, {factHash: {hello: 'world'}}).then(() => assert.fail(), err => assert.equal(err.message, 'Oops'));
+        });
+
+        it('should return a rejected promise if a reject Promise is returned', () => {
+            const rule = new Rule('test', {}, new patterns.InitialFactPattern(), () => {
+                return Promise.reject(new Error('Oops'));
+            });
+            return rule.fire({}, {factHash: {hello: 'world'}}).then(() => assert.fail(), err => assert.equal(err.message, 'Oops'));
         });
     });
 });
