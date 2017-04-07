@@ -10,8 +10,8 @@ rule Hello {
         m : Message m.message =~ /^hello\sworld$/
     }
     then {
-        modify(m, function(){
-            this.message += " goodbye";
+        modify(m, function(m){
+            m.message += " goodbye";
         })
     }
 }

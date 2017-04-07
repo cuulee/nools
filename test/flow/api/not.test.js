@@ -42,9 +42,9 @@ describe('not rule', () => {
             builder.rule('order rule', [
                 [Number, 'n1'],
                 ['not', Number, 'n2', 'n1 != n2 && n1 > n2'],
-            ], (facts, engine) => {
+            ], (facts, session) => {
                 arr.push(facts.n1);
-                engine.retract(facts.n1);
+                session.retract(facts.n1);
                 called += 1;
             });
         });
@@ -53,9 +53,9 @@ describe('not rule', () => {
             builder.rule('order rule reverse', [
                 [Number, 'n1'],
                 ['not', Number, 'n2', 'n1 < n2'],
-            ], (facts, engine) => {
+            ], (facts, session) => {
                 arr.push(facts.n1);
-                engine.retract(facts.n1);
+                session.retract(facts.n1);
                 called += 1;
             });
         });

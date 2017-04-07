@@ -32,8 +32,8 @@ rule Boostrap {
         f : Fibonacci f.value == -1 && (f.sequence == 1 || f.sequence  == 2)
     }
     then {
-        modify(f, function(){
-            this.value = 1;
+        modify(f, function(f){
+            f.value = 1;
         });
     }
 }
@@ -47,8 +47,8 @@ rule Calculate {
     }
     then {
         var v = f1.value + f2.value;
-        modify(f3, function(){
-             this.value = r.value =  v;
+        modify(f3, function(f3){
+             f3.value = r.value =  v;
         });
     }
 }

@@ -18,8 +18,8 @@ describe('issue - 65', () => {
     const flow = nools.flow('issue65', (builder) => {
         builder.rule('issue65',
             [Thing, '$t', '($t.step && isUndefined($t[$t.step]))'],
-            (facts, engine) => {
-                engine.emit('thing', facts.$t);
+            (facts, session) => {
+                session.emit('thing', facts.$t);
             });
     });
 

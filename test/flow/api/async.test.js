@@ -11,13 +11,13 @@ describe('async actions', () => {
     }
 
     const flow = nools.flow('async flow', (builder) => {
-        builder.rule('Hello', [Message, 'm', "m.message == 'hello'"], (facts, engine, next) => {
+        builder.rule('Hello', [Message, 'm', "m.message == 'hello'"], (facts, session, next) => {
             setTimeout(() => {
                 next();
             }, 500);
         });
 
-        builder.rule('Goodbye', [Message, 'm', "m.message == 'hello goodbye'"], (facts, engine, next) => {
+        builder.rule('Goodbye', [Message, 'm', "m.message == 'hello goodbye'"], (facts, session, next) => {
             setTimeout(() => {
                 next();
             }, 500);

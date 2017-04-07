@@ -17,18 +17,18 @@ describe('#matchUntilHalt', () => {
     }
 
     const flow = nools.flow('Match Until Halt Flow', (builder) => {
-        builder.rule('Stop', [Count, 'c', 'c.count == 6'], (facts, engine) => {
-            engine.halt();
+        builder.rule('Stop', [Count, 'c', 'c.count == 6'], (facts, session) => {
+            session.halt();
         });
 
         builder.rule('Hello', [
             [Count, 'c'],
             [Message, 'm', 'm.message =~ /^hello(\\s*world)?$/'],
-        ], (facts, engine) => {
-            engine.modify(facts.m, (m) => {
+        ], (facts, session) => {
+            session.modify(facts.m, (m) => {
                 m.message += ' goodbye';
             });
-            engine.modify(facts.c, (c) => {
+            session.modify(facts.c, (c) => {
                 c.count += 1;
             });
         });
@@ -36,9 +36,9 @@ describe('#matchUntilHalt', () => {
         builder.rule('Goodbye', [
             [Count, 'c'],
             [Message, 'm', 'm.message =~ /.*goodbye$/'],
-        ], (facts, engine) => {
-            engine.retract(facts.m);
-            engine.modify(facts.c, (c) => {
+        ], (facts, session) => {
+            session.retract(facts.m);
+            session.modify(facts.c, (c) => {
                 c.count += 1;
             });
         });

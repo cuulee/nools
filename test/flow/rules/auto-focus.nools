@@ -10,26 +10,26 @@ rule Bootstrap {
         a : State a.name == 'A' && a.state == 'NOT_RUN';
     }
     then{
-        modify(a, function(){
-            this.state = 'FINISHED';
+        modify(a, function(a){
+            a.state = 'FINISHED';
         });
     }
 }
 
- 
+
 rule 'A to B' {
     when{
         a : State a.name == 'A' && a.state == 'FINISHED';
         b : State b.name == 'B' && b.state == 'NOT_RUN';
     }
     then{
-        modify(b, function(){
-            this.state = 'FINISHED';
+        modify(b, function(b){
+            b.state = 'FINISHED';
         });
-    }        
+    }
 }
 
-rule 'B to C' { 
+rule 'B to C' {
     agenda-group: 'B to C';
     auto-focus: true;
     when{
@@ -37,8 +37,8 @@ rule 'B to C' {
         c : State c.name == 'C' && c.state == 'NOT_RUN';
     }
     then{
-        modify(c, function(){
-            this.state = 'FINISHED';
+        modify(c, function(c){
+            c.state = 'FINISHED';
         });
         focus('B to D')
     }
@@ -51,8 +51,8 @@ rule 'B to D' {
         d : State d.name == 'D' && d.state == 'NOT_RUN';
     }
     then{
-        modify(d, function(){
-            this.state = 'FINISHED';
+        modify(d, function(d){
+            d.state = 'FINISHED';
         });
     }        
 }

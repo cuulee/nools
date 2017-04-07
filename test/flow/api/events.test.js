@@ -11,8 +11,8 @@ describe('events', () => {
     }
 
     const eventsFlow = nools.flow('Events Flow', (flow) => {
-        flow.rule('Hello', [Message, 'm', 'm.message =~ /^hello(\\s*world)?$/'], (facts, engine) => {
-            engine.modify(facts.m, (m) => {
+        flow.rule('Hello', [Message, 'm', 'm.message =~ /^hello(\\s*world)?$/'], (facts, session) => {
+            session.modify(facts.m, (m) => {
                 m.message += ' goodbye';
             });
         });
@@ -21,14 +21,10 @@ describe('events', () => {
         });
     });
 
-    let session = null;
-
-    beforeEach(() => {
-        session = eventsFlow.getSession();
-    });
 
     it('should emit when facts are asserted', (next) => {
         const m = new Message('hello');
+        const session = eventsFlow.getSession();
         session.once('assert', (fact) => {
             assert.deepEqual(fact, m);
             next();
@@ -38,6 +34,7 @@ describe('events', () => {
 
     it('should emit when facts are retracted', (next) => {
         const m = new Message('hello');
+        const session = eventsFlow.getSession();
         session.once('retract', (fact) => {
             assert.deepEqual(fact, m);
             next();
@@ -48,6 +45,7 @@ describe('events', () => {
 
     it('should emit when facts are modified', (next) => {
         const m = new Message('hello');
+        const session = eventsFlow.getSession();
         session.once('modify', (fact) => {
             assert.deepEqual(fact, m);
             next();
@@ -63,6 +61,7 @@ describe('events', () => {
             ['Goodbye', 'hello goodbye'],
         ];
         let i = 0;
+        const session = eventsFlow.getSession();
         session.on('fire', (name, facts) => {
             assert.equal(name, fire[i][0]);
             assert.equal(facts.m.message, fire[i][1]);

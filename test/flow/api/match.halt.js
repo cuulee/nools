@@ -11,13 +11,13 @@ describe('#matchHalt', () => {
     }
 
     const haltFlow = nools.flow('Match with halt Flow', (builder) => {
-        builder.rule('Stop', [Count, 'c', 'c.count == 6'], (facts, engine) => {
-            engine.halt();
+        builder.rule('Stop', [Count, 'c', 'c.count == 6'], (facts, session) => {
+            session.halt();
         });
 
-        builder.rule('Inc', [Count, 'c'], (facts, engine) => {
+        builder.rule('Inc', [Count, 'c'], (facts, session) => {
             facts.c.count += 1;
-            engine.modify(facts.c);
+            session.modify(facts.c);
         });
     });
 

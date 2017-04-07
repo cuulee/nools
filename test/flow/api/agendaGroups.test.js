@@ -11,14 +11,14 @@ describe('agenda-groups', () => {
     }
 
     const agendaGroupFlow = nools.flow('agendGroups', (builder) => {
-        builder.rule('Hello World', {agendaGroup: 'ag1'}, [Message, 'm', "m.name == 'hello'"], (facts, engine) => {
-            engine.modify(facts.m, (m) => {
+        builder.rule('Hello World', {agendaGroup: 'ag1'}, [Message, 'm', "m.name == 'hello'"], (facts, session) => {
+            session.modify(facts.m, (m) => {
                 m.name = 'goodbye';
             });
         });
 
-        builder.rule('Hello World 2', {agendaGroup: 'ag2'}, [Message, 'm', "m.name == 'hello'"], (facts, engine) => {
-            engine.modify(facts.m, (m) => {
+        builder.rule('Hello World 2', {agendaGroup: 'ag2'}, [Message, 'm', "m.name == 'hello'"], (facts, session) => {
+            session.modify(facts.m, (m) => {
                 m.name = 'goodbye';
             });
         });
@@ -31,14 +31,10 @@ describe('agenda-groups', () => {
             // noop
         });
     });
-    let session = null;
-
-    beforeEach(() => {
-        session = agendaGroupFlow.getSession();
-    });
 
     it('should only fire events in focused group', () => {
         let events = [];
+        const session = agendaGroupFlow.getSession();
         session.assert(new Message('hello'));
         session.focus('ag1');
         session.on('fire', (name) => {
@@ -48,13 +44,13 @@ describe('agenda-groups', () => {
             .then(() => {
                 assert.deepEqual(events, ['Hello World', 'GoodBye']);
                 events = [];
-                session = agendaGroupFlow.getSession();
-                session.assert(new Message('hello'));
-                session.focus('ag2');
-                session.on('fire', (name) => {
+                const newSession = agendaGroupFlow.getSession();
+                newSession.assert(new Message('hello'));
+                newSession.focus('ag2');
+                newSession.on('fire', (name) => {
                     events.push(name);
                 });
-                return session.match().then(() => {
+                return newSession.match().then(() => {
                     assert.deepEqual(events, ['Hello World 2', 'GoodBye 2']);
                 });
             });
@@ -62,6 +58,7 @@ describe('agenda-groups', () => {
 
     it('should should treat focus like a stack', () => {
         let events = [];
+        const session = agendaGroupFlow.getSession();
         session.assert(new Message('hello'));
         session.focus('ag2');
         session.focus('ag1');
@@ -73,14 +70,14 @@ describe('agenda-groups', () => {
             .then(() => {
                 assert.deepEqual(events, ['Hello World', 'GoodBye', 'GoodBye 2']);
                 events = [];
-                session = agendaGroupFlow.getSession();
-                session.assert(new Message('hello'));
-                session.focus('ag1');
-                session.focus('ag2');
-                session.on('fire', (name) => {
+                const newSession = agendaGroupFlow.getSession();
+                newSession.assert(new Message('hello'));
+                newSession.focus('ag1');
+                newSession.focus('ag2');
+                newSession.on('fire', (name) => {
                     events.push(name);
                 });
-                return session.match().then(() => {
+                return newSession.match().then(() => {
                     assert.deepEqual(events, ['Hello World 2', 'GoodBye 2', 'GoodBye']);
                 });
             });
@@ -96,8 +93,8 @@ describe('agenda-groups', () => {
         }
 
         const autoFocusFlow = nools.flow('autoFocus', (builder) => {
-            builder.rule('Bootstrap', [State, 'a', "a.name == 'A' && a.state == 'NOT_RUN'"], (facts, engine) => {
-                engine.modify(facts.a, (a) => {
+            builder.rule('Bootstrap', [State, 'a', "a.name == 'A' && a.state == 'NOT_RUN'"], (facts, session) => {
+                session.modify(facts.a, (a) => {
                     a.state = 'FINISHED';
                 });
             });
@@ -107,8 +104,8 @@ describe('agenda-groups', () => {
                     [State, 'a', "a.name == 'A' && a.state == 'FINISHED'"],
                     [State, 'b', "b.name == 'B' && b.state == 'NOT_RUN'"],
                 ],
-                (facts, engine) => {
-                    engine.modify(facts.b, (b) => {
+                (facts, session) => {
+                    session.modify(facts.b, (b) => {
                         b.state = 'FINISHED';
                     });
                 });
@@ -119,11 +116,11 @@ describe('agenda-groups', () => {
                     [State, 'b', "b.name == 'B' && b.state == 'FINISHED'"],
                     [State, 'c', "c.name == 'C' && c.state == 'NOT_RUN'"],
                 ],
-                (facts, engine) => {
-                    engine.modify(facts.c, (c) => {
+                (facts, session) => {
+                    session.modify(facts.c, (c) => {
                         c.state = 'FINISHED';
                     });
-                    engine.focus('B to D');
+                    session.focus('B to D');
                 });
 
             builder.rule('B to D',
@@ -132,18 +129,15 @@ describe('agenda-groups', () => {
                     [State, 'b', "b.name == 'B' && b.state == 'FINISHED'"],
                     [State, 'd', "d.name == 'D' && d.state == 'NOT_RUN'"],
                 ],
-                (facts, engine) => {
-                    engine.modify(facts.d, (d) => {
+                (facts, session) => {
+                    session.modify(facts.d, (d) => {
                         d.state = 'FINISHED';
                     });
                 });
         });
 
-        beforeEach(() => {
-            session = autoFocusFlow.getSession();
-        });
-
         it('should activate agenda groups in proper order', () => {
+            const session = autoFocusFlow.getSession();
             session.assert(new State('A', 'NOT_RUN'));
             session.assert(new State('B', 'NOT_RUN'));
             session.assert(new State('C', 'NOT_RUN'));
