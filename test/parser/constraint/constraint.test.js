@@ -5,149 +5,149 @@ const assert = require('assert');
 
 describe('Constraint Parser', () => {
     it('should parse valid string expressions', () => {
-        assert.deepEqual(parser.parseConstraint("a == 'a'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a == 'a'"), [
             ['a', null, 'identifier'],
             ['a', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a eq 'a'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a eq 'a'"), [
             ['a', null, 'identifier'],
             ['a', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a == 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a == 'Hello'"), [
             ['a', null, 'identifier'],
             ['Hello', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a eq 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a eq 'Hello'"), [
             ['a', null, 'identifier'],
             ['Hello', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a == 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a == 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a eq 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a eq 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'eq',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a == true'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a == true'), [
             ['a', null, 'identifier'],
             [true, null, 'boolean'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a eq true'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a eq true'), [
             ['a', null, 'identifier'],
             [true, null, 'boolean'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a == false'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a == false'), [
             ['a', null, 'identifier'],
             [false, null, 'boolean'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a eq false'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a eq false'), [
             ['a', null, 'identifier'],
             [false, null, 'boolean'],
             'eq',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a eq null'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a eq null'), [
             ['a', null, 'identifier'],
             [null, null, 'null'],
             'eq',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a =~ /hello/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a =~ /hello/'), [
             ['a', null, 'identifier'],
             ['/hello/', null, 'regexp'],
             'like',
         ]);
-        assert.deepEqual(parser.parseConstraint('a =~ /h\\/ello/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a =~ /h\\/ello/'), [
             ['a', null, 'identifier'],
             ['/h\\/ello/', null, 'regexp'],
             'like',
         ]);
-        assert.deepEqual(parser.parseConstraint('a like /hello/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a like /hello/'), [
             ['a', null, 'identifier'],
             ['/hello/', null, 'regexp'],
             'like',
         ]);
-        assert.deepEqual(parser.parseConstraint('a =~ /^hello$/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a =~ /^hello$/'), [
             ['a', null, 'identifier'],
             ['/^hello$/', null, 'regexp'],
             'like',
         ]);
-        assert.deepEqual(parser.parseConstraint('a like /^hello$/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a like /^hello$/'), [
             ['a', null, 'identifier'],
             ['/^hello$/', null, 'regexp'],
             'like',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a !=~ /hello/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a !=~ /hello/'), [
             ['a', null, 'identifier'],
             ['/hello/', null, 'regexp'],
             'notLike',
         ]);
-        assert.deepEqual(parser.parseConstraint('a notLike /hello/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a notLike /hello/'), [
             ['a', null, 'identifier'],
             ['/hello/', null, 'regexp'],
             'notLike',
         ]);
-        assert.deepEqual(parser.parseConstraint('a !=~ /^hello$/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a !=~ /^hello$/'), [
             ['a', null, 'identifier'],
             ['/^hello$/', null, 'regexp'],
             'notLike',
         ]);
-        assert.deepEqual(parser.parseConstraint('a notLike /^hello$/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a notLike /^hello$/'), [
             ['a', null, 'identifier'],
             ['/^hello$/', null, 'regexp'],
             'notLike',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a > 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a > 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'gt',
         ]);
-        assert.deepEqual(parser.parseConstraint('a gt 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a gt 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'gt',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a >= 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a >= 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'gte',
         ]);
-        assert.deepEqual(parser.parseConstraint('a gte 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a gte 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'gte',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a < 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a < 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'lt',
         ]);
-        assert.deepEqual(parser.parseConstraint('a lt 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a lt 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'lt',
         ]);
-        assert.deepEqual(parser.parseConstraint('a <= 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a <= 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'lte',
         ]);
-        assert.deepEqual(parser.parseConstraint('a lte 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a lte 1'), [
             ['a', null, 'identifier'],
             [1, null, 'number'],
             'lte',
@@ -155,7 +155,7 @@ describe('Constraint Parser', () => {
     });
 
     it('should parse regexps and not be greedy', () => {
-        assert.deepEqual(parser.parseConstraint('a =~ /^\\/((?![\\s=])[^[\\/\\n\\\\]*(?:(?:\\\\[\\s\\S]|\\[[^\\]\\n\\\\]*(?:\\\\[\\s\\S][^\\]\\n\\\\]*)*])[^[\\/\\n\\\\]*)*\\/[imgy]{0,4})(?!\\w)/ && b like /^\\/((?![\\s=])[^[\\/\\n\\\\]*(?:(?:\\\\[\\s\\S]|\\[[^\\]\\n\\\\]*(?:\\\\[\\s\\S][^\\]\\n\\\\]*)*])[^[\\/\\n\\\\]*)*\\/[imgy]{0,4})(?!\\w)/'),
+        assert.deepEqual(parser.constraint.parseConstraintSource('a =~ /^\\/((?![\\s=])[^[\\/\\n\\\\]*(?:(?:\\\\[\\s\\S]|\\[[^\\]\\n\\\\]*(?:\\\\[\\s\\S][^\\]\\n\\\\]*)*])[^[\\/\\n\\\\]*)*\\/[imgy]{0,4})(?!\\w)/ && b like /^\\/((?![\\s=])[^[\\/\\n\\\\]*(?:(?:\\\\[\\s\\S]|\\[[^\\]\\n\\\\]*(?:\\\\[\\s\\S][^\\]\\n\\\\]*)*])[^[\\/\\n\\\\]*)*\\/[imgy]{0,4})(?!\\w)/'),
             [
                 [
                     ['a', null, 'identifier'],
@@ -172,12 +172,12 @@ describe('Constraint Parser', () => {
     });
 
     it('should parse valid string expressions with functions', () => {
-        assert.deepEqual(parser.parseConstraint('Date()'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('Date()'), [
             ['Date', null, 'identifier'],
             [null, null, 'arguments'],
             'function',
         ]);
-        assert.deepEqual(parser.parseConstraint('a(b,c,d,e)'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a(b,c,d,e)'), [
             ['a', null, 'identifier'],
             [
                 [
@@ -194,7 +194,7 @@ describe('Constraint Parser', () => {
             ],
             'function',
         ]);
-        assert.deepEqual(parser.parseConstraint('a(b,c)'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a(b,c)'), [
             ['a', null, 'identifier'],
             [
                 ['b', null, 'identifier'],
@@ -203,7 +203,7 @@ describe('Constraint Parser', () => {
             ],
             'function',
         ]);
-        assert.deepEqual(parser.parseConstraint('a(b,c) && e(f,g)'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a(b,c) && e(f,g)'), [
             [
                 ['a', null, 'identifier'],
                 [
@@ -227,13 +227,13 @@ describe('Constraint Parser', () => {
     });
 
     it('should parse valid string expressions with property access', () => {
-        assert.deepEqual(parser.parseConstraint('a.flag'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.flag'), [
             ['a', null, 'identifier'],
             ['flag', null, 'identifier'],
             'prop',
         ]);
 
-        assert.deepEqual(parser.parseConstraint("a.name == 'a'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name == 'a'"), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -242,7 +242,7 @@ describe('Constraint Parser', () => {
             ['a', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name eq 'a'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name eq 'a'"), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -251,7 +251,7 @@ describe('Constraint Parser', () => {
             ['a', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.greeting == 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.greeting == 'Hello'"), [
             [
                 ['a', null, 'identifier'],
                 ['greeting', null, 'identifier'],
@@ -260,7 +260,7 @@ describe('Constraint Parser', () => {
             ['Hello', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.greeting eq 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.greeting eq 'Hello'"), [
             [
                 ['a', null, 'identifier'],
                 ['greeting', null, 'identifier'],
@@ -269,7 +269,7 @@ describe('Constraint Parser', () => {
             ['Hello', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name.length == 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name.length == 'Hello'"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -282,7 +282,7 @@ describe('Constraint Parser', () => {
             ['Hello', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name eq 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name eq 'Hello'"), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -291,7 +291,7 @@ describe('Constraint Parser', () => {
             ['Hello', null, 'string'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.name == 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name == 1'), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -300,7 +300,7 @@ describe('Constraint Parser', () => {
             [1, null, 'number'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.name eq 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name eq 1'), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -310,7 +310,7 @@ describe('Constraint Parser', () => {
             'eq',
         ]);
 
-        assert.deepEqual(parser.parseConstraint("a.name != 'a'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name != 'a'"), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -319,7 +319,7 @@ describe('Constraint Parser', () => {
             ['a', null, 'string'],
             'neq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name neq 'a'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name neq 'a'"), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -328,7 +328,7 @@ describe('Constraint Parser', () => {
             ['a', null, 'string'],
             'neq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.greeting != 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.greeting != 'Hello'"), [
             [
                 ['a', null, 'identifier'],
                 ['greeting', null, 'identifier'],
@@ -337,7 +337,7 @@ describe('Constraint Parser', () => {
             ['Hello', null, 'string'],
             'neq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.greeting neq 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.greeting neq 'Hello'"), [
             [
                 ['a', null, 'identifier'],
                 ['greeting', null, 'identifier'],
@@ -346,7 +346,7 @@ describe('Constraint Parser', () => {
             ['Hello', null, 'string'],
             'neq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name.length != 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name.length != 'Hello'"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -359,7 +359,7 @@ describe('Constraint Parser', () => {
             ['Hello', null, 'string'],
             'neq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name neq 'Hello'"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name neq 'Hello'"), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -368,7 +368,7 @@ describe('Constraint Parser', () => {
             ['Hello', null, 'string'],
             'neq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.name != 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name != 1'), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -377,7 +377,7 @@ describe('Constraint Parser', () => {
             [1, null, 'number'],
             'neq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.name neq 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name neq 1'), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -387,7 +387,7 @@ describe('Constraint Parser', () => {
             'neq',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a.flag == true'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.flag == true'), [
             [
                 ['a', null, 'identifier'],
                 ['flag', null, 'identifier'],
@@ -396,7 +396,7 @@ describe('Constraint Parser', () => {
             [true, null, 'boolean'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.flag eq true'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.flag eq true'), [
             [
                 ['a', null, 'identifier'],
                 ['flag', null, 'identifier'],
@@ -405,7 +405,7 @@ describe('Constraint Parser', () => {
             [true, null, 'boolean'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.flag == false'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.flag == false'), [
             [
                 ['a', null, 'identifier'],
                 ['flag', null, 'identifier'],
@@ -414,7 +414,7 @@ describe('Constraint Parser', () => {
             [false, null, 'boolean'],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.flag eq false'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.flag eq false'), [
             [
                 ['a', null, 'identifier'],
                 ['flag', null, 'identifier'],
@@ -424,7 +424,7 @@ describe('Constraint Parser', () => {
             'eq',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a.name =~ /hello/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name =~ /hello/'), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -433,7 +433,7 @@ describe('Constraint Parser', () => {
             ['/hello/', null, 'regexp'],
             'like',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.name like /hello/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name like /hello/'), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -442,7 +442,7 @@ describe('Constraint Parser', () => {
             ['/hello/', null, 'regexp'],
             'like',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.name =~ /^hello$/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name =~ /^hello$/'), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -451,7 +451,7 @@ describe('Constraint Parser', () => {
             ['/^hello$/', null, 'regexp'],
             'like',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.name like /^hello$/'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name like /^hello$/'), [
             [
                 ['a', null, 'identifier'],
                 ['name', null, 'identifier'],
@@ -461,7 +461,7 @@ describe('Constraint Parser', () => {
             'like',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a.age > 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age > 1'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -470,7 +470,7 @@ describe('Constraint Parser', () => {
             [1, null, 'number'],
             'gt',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.age gt 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age gt 1'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -480,7 +480,7 @@ describe('Constraint Parser', () => {
             'gt',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a.age >= 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age >= 1'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -489,7 +489,7 @@ describe('Constraint Parser', () => {
             [1, null, 'number'],
             'gte',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.age gte 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age gte 1'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -499,7 +499,7 @@ describe('Constraint Parser', () => {
             'gte',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a.age < 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age < 1'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -508,7 +508,7 @@ describe('Constraint Parser', () => {
             [1, null, 'number'],
             'lt',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.age lt 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age lt 1'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -517,7 +517,7 @@ describe('Constraint Parser', () => {
             [1, null, 'number'],
             'lt',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.age <= 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age <= 1'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -526,7 +526,7 @@ describe('Constraint Parser', () => {
             [1, null, 'number'],
             'lte',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.age lte 1'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age lte 1'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -536,7 +536,7 @@ describe('Constraint Parser', () => {
             'lte',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a.age eq a.num'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age eq a.num'), [
             [
                 ['a', null, 'identifier'],
                 ['age', null, 'identifier'],
@@ -549,7 +549,7 @@ describe('Constraint Parser', () => {
             ],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint('a.age() eq a.num()'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.age() eq a.num()'), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -572,7 +572,7 @@ describe('Constraint Parser', () => {
         ]);
 
 
-        assert.deepEqual(parser.parseConstraint("a['age']() eq a['num']()"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a['age']() eq a['num']()"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -594,7 +594,7 @@ describe('Constraint Parser', () => {
             'eq',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a[b]() eq a[c]()'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a[b]() eq a[c]()'), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -615,7 +615,7 @@ describe('Constraint Parser', () => {
             ],
             'eq',
         ]);
-        assert.deepEqual(parser.parseConstraint("a[b]().a.c()['a']()()"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a[b]().a.c()['a']()()"), [
             [
                 [
                     [
@@ -649,13 +649,13 @@ describe('Constraint Parser', () => {
             'function',
         ]);
 
-        assert.deepEqual(parser.parseConstraint("a['flag']"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a['flag']"), [
             ['a', null, 'identifier'],
             ['flag', null, 'string'],
             'propLookup',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a[b]'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a[b]'), [
             ['a', null, 'identifier'],
             ['b', null, 'identifier'],
             'propLookup',
@@ -663,7 +663,7 @@ describe('Constraint Parser', () => {
     });
 
     it('should parse valid string expressions with boolean operators', () => {
-        assert.deepEqual(parser.parseConstraint("a.name == 'bob' && a.age >= 10"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name == 'bob' && a.age >= 10"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -684,7 +684,7 @@ describe('Constraint Parser', () => {
             ],
             'and',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name == 'bob' || a.age >= 10"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name == 'bob' || a.age >= 10"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -706,7 +706,7 @@ describe('Constraint Parser', () => {
             'or',
         ]);
 
-        assert.deepEqual(parser.parseConstraint("a.name EQ 'bob' AND a.age GTE 10"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name EQ 'bob' AND a.age GTE 10"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -727,7 +727,7 @@ describe('Constraint Parser', () => {
             ],
             'and',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name EQ 'bob' OR a.age GTE 10"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name EQ 'bob' OR a.age GTE 10"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -749,7 +749,7 @@ describe('Constraint Parser', () => {
             'or',
         ]);
 
-        assert.deepEqual(parser.parseConstraint("a.name eq 'bob' and a.age gte 10"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name eq 'bob' and a.age gte 10"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -770,7 +770,7 @@ describe('Constraint Parser', () => {
             ],
             'and',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name eq 'bob' or a.age gte 10"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name eq 'bob' or a.age gte 10"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -792,7 +792,7 @@ describe('Constraint Parser', () => {
             'or',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('a.name eq "bob" or a.age gte 10'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a.name eq "bob" or a.age gte 10'), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -840,7 +840,7 @@ describe('Constraint Parser', () => {
             'OR',
         ];
         for (let i = 0, l = props.length; i < l; i++) {
-            assert.deepEqual(parser.parseConstraint(`a.name.${props[i]}("bob")`), [
+            assert.deepEqual(parser.constraint.parseConstraintSource(`a.name.${props[i]}("bob")`), [
                 [
                     [
                         ['a', null, 'identifier'],
@@ -857,7 +857,7 @@ describe('Constraint Parser', () => {
     });
 
     it('should handle operator associativity properly', () => {
-        assert.deepEqual(parser.parseConstraint("a.name == 'a' || a.name == 'bob' && a.age >= 10"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name == 'a' || a.name == 'bob' && a.age >= 10"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -892,7 +892,7 @@ describe('Constraint Parser', () => {
             ],
             'or',
         ]);
-        assert.deepEqual(parser.parseConstraint("a.name == 'a' || (a.name == 'bob' && a.age >= 10)"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("a.name == 'a' || (a.name == 'bob' && a.age >= 10)"), [
             [
                 [
                     ['a', null, 'identifier'],
@@ -929,7 +929,7 @@ describe('Constraint Parser', () => {
             ],
             'or',
         ]);
-        assert.deepEqual(parser.parseConstraint("(a.name == 'a' && a.name == 'bob') || a.age >= 10"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("(a.name == 'a' && a.name == 'bob') || a.age >= 10"), [
             [
                 [
                     [
@@ -969,8 +969,8 @@ describe('Constraint Parser', () => {
     });
 
     it('should parse arrays', () => {
-        assert.deepEqual(parser.parseConstraint('[]'), [null, null, 'array']);
-        assert.deepEqual(parser.parseConstraint('[1,2]'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('[]'), [null, null, 'array']);
+        assert.deepEqual(parser.constraint.parseConstraintSource('[1,2]'), [
             [
                 [1, null, 'number'],
                 [2, null, 'number'],
@@ -979,7 +979,7 @@ describe('Constraint Parser', () => {
             null,
             'array',
         ]);
-        assert.deepEqual(parser.parseConstraint("['a',2, true, false, /hello/, b]"), [
+        assert.deepEqual(parser.constraint.parseConstraintSource("['a',2, true, false, /hello/, b]"), [
             [
                 [
                     [
@@ -1007,7 +1007,7 @@ describe('Constraint Parser', () => {
     });
 
     it('should parse the in operator', () => {
-        assert.deepEqual(parser.parseConstraint('1 in [1,2,3]'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('1 in [1,2,3]'), [
             [1, null, 'number'],
             [
                 [
@@ -1027,7 +1027,7 @@ describe('Constraint Parser', () => {
     });
 
     it('should parse the notIn operator', () => {
-        assert.deepEqual(parser.parseConstraint('1 notIn [1,2,3]'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('1 notIn [1,2,3]'), [
             [1, null, 'number'],
             [
                 [
@@ -1047,7 +1047,7 @@ describe('Constraint Parser', () => {
     });
 
     it('should parse truthy statements', () => {
-        assert.deepEqual(parser.parseConstraint('a && !b'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('a && !b'), [
             ['a', null, 'identifier'],
             [
                 ['b', null, 'identifier'],
@@ -1057,7 +1057,7 @@ describe('Constraint Parser', () => {
             'and',
         ]);
 
-        assert.deepEqual(parser.parseConstraint('!(a && b)'), [
+        assert.deepEqual(parser.constraint.parseConstraintSource('!(a && b)'), [
             [
                 [
                     ['a', null, 'identifier'],

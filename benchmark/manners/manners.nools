@@ -84,12 +84,12 @@ rule assignFirstSeat {
             assert(seating);
             var path = new Path({id : count.value, seat : 1, guestName : leftGuestName});
             assert(path);
-            modify(count, function(){
-                this.value++
+            modify(count, function(count){
+                count.value++
             });
             console.log('assign first seat : %s : %s', seating, path);
-            modify(c, function(){
-                this.state = 'assign';
+            modify(c, function(c){
+                c.state = 'assign';
             });
         }
 }
@@ -118,8 +118,8 @@ rule findSeating {
             var path = new Path({id : countValue, seat : rightSeat + 1, guestName : leftGuestName});
             assert(path);
             assert(new Chosen({id : sid, guestName : leftGuestName, hobby : rightGuestHobby}));
-            modify(count, function(){this.value++;});
-            modify(c, function(){this.state = 'make'});
+            modify(count, function(count){count.value++;});
+            modify(c, function(c){c.state = 'make'});
         }
 }
 
@@ -141,11 +141,11 @@ rule pathDone {
             s : Seating s.path == false;
         }
         then {
-            modify(s, function(){
-                this.path = true;
+            modify(s, function(s){
+                s.path = true;
             });
-            modify(c, function(){
-                    this.state = 'check';
+            modify(c, function(c){
+                    c.state = 'check';
             });
             console.log('path Done : %s', s);
         }
@@ -159,7 +159,7 @@ rule areWeDone {
         }
         then {
             console.log("areWeDone");
-            modify(c, function(){this.state = 'print';})
+            modify(c, function(){c.state = 'print';})
         }
 }
 
@@ -168,7 +168,7 @@ rule continue {
             c : Context c.state == 'check';
         }
         then {
-            modify(c, function(){this.state = 'assign'});
+            modify(c, function(){c.state = 'assign'});
         }
 }
 
