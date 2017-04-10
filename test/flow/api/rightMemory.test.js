@@ -3,7 +3,7 @@
 const assert = require('assert');
 const is = require('is-extended');
 const Context = require('../../../lib/flow/rule/nodes/context');
-const WorkingMemory = require('../../../lib/flow/workingMemory').WorkingMemory;
+const WorkingMemory = require('../../../lib/flow/workingMemory');
 const RightMemory = require('../../../lib/flow/rule/nodes/misc/rightMemory');
 
 describe('BetaNode RightMemory', () => {
