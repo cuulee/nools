@@ -1,7 +1,6 @@
 'use strict';
 
 const assert = require('assert');
-const parser = require('../../../../../../lib/parser');
 const atoms = require('../../../../../../lib/flow/rule/patterns/atoms');
 
 const fromConstraints = atoms.utils.fromConstraints;
