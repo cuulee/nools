@@ -1,42 +1,28 @@
-(function () {
-    "use strict";
+'use strict';
 
-    var fs = require("fs"), path = require("path");
+const utils = require('../../utils');
 
-    var FILE_REG = /(.*)\.dat$/, files = {};
-    fs.readdirSync(__dirname).filter(function (file) {
-        return FILE_REG.test(file);
-    }).forEach(function (f) {
-            var name = f.match(FILE_REG)[1];
-            files[name] = fs.readFileSync(path.resolve(__dirname, f), "utf8");
+
+function load(flow) {
+    const files = utils.parseDataFiles(__dirname);
+    return utils.createFacts(files, /\^/, (type, parts) => {
+        const Cls = flow.getDefined(type.replace(/^make\s/, '').trim());
+        const args = {};
+        parts.forEach((p) => {
+            const prop = p.trim().replace(/\)$/, '').split(/\s+/);
+            const name = prop[0].trim();
+            const value = prop[1].trim();
+            if (name.match(/p1|p2/) !== null) {
+                args[name] = parseInt(value, 10);
+            } else {
+                args[name] = value;
+            }
         });
+        return new Cls(args);
+    });
+}
 
-    exports.load = function (flow) {
-        var ret = {};
-        Object.keys(files).forEach(function (name) {
-            var data = files[name];
-            var arr = ret[name] = [];
-            data.split("\n").map(function (line) {
-                return line.replace(/^\(|\)$/g, "");
-            }).forEach(function (line) {
-                    if (line) {
-                        var parts = line.split(/\^/),
-                            type = parts.shift();
-                        var Cls = flow.getDefined(type.replace(/^make\s/, "").trim());
-                        if (type) {
-                            var args = {};
-                            parts.forEach(function (p) {
-                                var prop = p.trim().replace(/\)$/, "").split(/\s+/),
-                                    name = prop[0].trim(),
-                                    value = prop[1].trim();
-                                args[name] = name.match(/p1|p2/) !== null ? parseInt(value, 10) : value;
-                            });
-                            arr.push(new Cls(args));
-                        }
-                    }
-                });
-        });
-        return ret;
-    };
 
-})();
+module.exports = {
+    load,
+};
