@@ -1,7 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
 const assert = require('assert');
-const is = require('is-extended');
 const Context = require('../../../lib/flow/rule/nodes/context');
 const WorkingMemory = require('../../../lib/flow/workingMemory');
 const RightMemory = require('../../../lib/flow/rule/nodes/misc/rightMemory');
@@ -34,8 +34,8 @@ describe('BetaNode RightMemory', () => {
         const index = rm.indexes[0];
         assert.equal(index[1], 's.a');
         assert.equal(index[0], 'a.s');
-        assert(is.isFunction(index[2]));
-        assert(is.isFunction(index[3]));
+        assert(_.isFunction(index[2]));
+        assert(_.isFunction(index[3]));
         assert.equal(index[4], 'eq');
         assert.deepEqual(index[3]({s: {a: 1}}), 1);
         assert.deepEqual(index[2]({a: {s: 1}}), 1);
@@ -48,8 +48,8 @@ describe('BetaNode RightMemory', () => {
         const index = rm.indexes[0];
         assert.equal(index[0], 'a.s');
         assert.equal(index[1], 's.a');
-        assert(is.isFunction(index[2]));
-        assert(is.isFunction(index[3]));
+        assert(_.isFunction(index[2]));
+        assert(_.isFunction(index[3]));
         assert.equal(index[4], 'neq');
         assert.deepEqual(index[2]({a: {s: 1}}), 1);
         assert.deepEqual(index[3]({s: {a: 1}}), 1);

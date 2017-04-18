@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('assert');
-const dateExtended = require('date-extended');
+const moment = require('moment');
 const nools = require('../../../lib');
 
 describe('from condition', () => {
@@ -195,7 +195,7 @@ describe('from condition', () => {
                 new MyValue('c'),
                 new MyValue('d'),
                 new MyValue('e'),
-                new MyValue(dateExtended.daysFromNow(1)),
+                new MyValue(moment().add(1, 'days').toDate()),
                 new MyValue('f'),
                 new MyValue('g'),
                 new MyValue('h'),

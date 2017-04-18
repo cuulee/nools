@@ -19,19 +19,11 @@
         "url": "git@github.com:C2FO/nools.git"
     },
     "dependencies": {
-        "declare.js": "~0.0.3",
-        "extended": "~0.0.3",
-        "is-extended": "~0.0.4",
-        "string-extended": "~0.0.3",
-        "array-extended": "~0.0.4",
-        "date-extended": "~0.0.3",
-        "function-extended": "~0.0.3",
-        "object-extended": "~0.0.3",
-        "promise-extended": "~0.0.3",
-        "arguments-extended": "~0.0.3",
-        "leafy": "~0.0.3",
-        "ht": "~0.0.2",
         "commander": "~1.1.1",
+        "ht": "~0.0.2",
+        "leafy": "~0.0.3",
+        "lodash": "^4.17.4",
+        "moment": "^2.18.1",
         "uglify-js": "~2.4.24"
     },
     "devDependencies": {
@@ -63,11 +55,12 @@
     },
     "homepage": "http://c2fo.github.com/nools",
     "author": "Doug Martin (http://c2fo.com)",
-    "main": "index.js",
+    "main": "lib/",
     "scripts": {
         "create-doc": "rm -rf docs/* && ./node_modules/coddoc/bin/coddoc -d ./lib -f multi-html",
         "test": "npm run eslint && npm run mocha",
-        "eslint": "./node_modules/eslint/bin/eslint.js lib/. test/.",
+        "benchmarks": "cd ./benchmark && node .",
+        "eslint": "./node_modules/eslint/bin/eslint.js lib/. test/. benchmark/.",
         "eslint-fix": "./node_modules/eslint/bin/eslint.js lib/. test/. --fix",
         "mocha": "mocha --reporter tap test/ --recursive"
     },
