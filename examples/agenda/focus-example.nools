@@ -10,9 +10,8 @@ rule Bootstrap {
         a : State a.name == 'A' && a.state == 'NOT_RUN';
     }
     then{
-        modify(a, function(){
-            this.state = 'FINISHED';
-        });
+        a.state = 'FINISHED';
+        modify(a);
     }
 }
 
@@ -23,9 +22,8 @@ rule 'A to B' {
         b : State b.name == 'B' && b.state == 'NOT_RUN';
     }
     then{
-        modify(b, function(){
-            this.state = 'FINISHED';
-        });
+        b.state = 'FINISHED';
+        modify(b);
     }        
 }
 
@@ -37,9 +35,8 @@ rule 'B to C' {
         c : State c.name == 'C' && c.state == 'NOT_RUN';
     }
     then{
-        modify(c, function(){
-            this.state = 'FINISHED';
-        });
+        c.state = 'FINISHED';
+        modify(c);
         focus('B to D')
     }
 }
@@ -51,8 +48,7 @@ rule 'B to D' {
         d : State d.name == 'D' && d.state == 'NOT_RUN';
     }
     then{
-        modify(d, function(){
-            this.state = 'FINISHED';
-        });
+        d.state = 'FINISHED';
+        modify(d);
     }        
 }

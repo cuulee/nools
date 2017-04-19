@@ -4,25 +4,23 @@ define Message{
     }
 }
 
-rule "Hello World" {
+rule "Agenda Group 1" {
     agenda-group: "ag1";
     when{
         m : Message m.name === 'hello';
     }
     then{
-        modify(m, function(){
-            this.name = "goodbye";
-        });
+        m.name = "goodbye";
+        modify(m);
     }
 }
-rule "Hello World 2" {
+rule "Agenda Group 2" {
     agenda-group: "ag2";
     when{
         m : Message m.name === 'goodbye';
     }
     then {
-        modify(m, function(){
-            m.name = "hello";
-        });
+        m.name = 'hello';
+        modify(m);
     }
 }
